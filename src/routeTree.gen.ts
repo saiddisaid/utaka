@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as BelajarRouteImport } from './routes/belajar'
 import { Route as CaraBermainRouteImport } from './routes/cara-bermain'
 import { Route as KartuRouteImport } from './routes/kartu'
+import { Route as TentangRouteImport } from './routes/tentang'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -34,18 +35,25 @@ const KartuRoute = KartuRouteImport.update({
   path: '/kartu',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TentangRoute = TentangRouteImport.update({
+  id: '/tentang',
+  path: '/tentang',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/belajar': typeof BelajarRoute
   '/cara-bermain': typeof CaraBermainRoute
   '/kartu': typeof KartuRoute
+  '/tentang': typeof TentangRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/belajar': typeof BelajarRoute
   '/cara-bermain': typeof CaraBermainRoute
   '/kartu': typeof KartuRoute
+  '/tentang': typeof TentangRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +61,14 @@ export interface FileRoutesById {
   '/belajar': typeof BelajarRoute
   '/cara-bermain': typeof CaraBermainRoute
   '/kartu': typeof KartuRoute
+  '/tentang': typeof TentangRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/belajar' | '/cara-bermain' | '/kartu'
+  fullPaths: '/' | '/belajar' | '/cara-bermain' | '/kartu' | '/tentang'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/belajar' | '/cara-bermain' | '/kartu'
-  id: '__root__' | '/' | '/belajar' | '/cara-bermain' | '/kartu'
+  to: '/' | '/belajar' | '/cara-bermain' | '/kartu' | '/tentang'
+  id: '__root__' | '/' | '/belajar' | '/cara-bermain' | '/kartu' | '/tentang'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,6 +76,7 @@ export interface RootRouteChildren {
   BelajarRoute: typeof BelajarRoute
   CaraBermainRoute: typeof CaraBermainRoute
   KartuRoute: typeof KartuRoute
+  TentangRoute: typeof TentangRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -99,6 +109,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof KartuRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tentang': {
+      id: '/tentang'
+      path: '/tentang'
+      fullPath: '/tentang'
+      preLoaderRoute: typeof TentangRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -107,6 +124,7 @@ const rootRouteChildren: RootRouteChildren = {
   BelajarRoute: BelajarRoute,
   CaraBermainRoute: CaraBermainRoute,
   KartuRoute: KartuRoute,
+  TentangRoute: TentangRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
