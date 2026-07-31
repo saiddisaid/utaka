@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BelajarRouteImport } from './routes/belajar'
+import { Route as BermainRouteImport } from './routes/bermain'
 import { Route as CaraBermainRouteImport } from './routes/cara-bermain'
 import { Route as KartuRouteImport } from './routes/kartu'
 import { Route as TentangRouteImport } from './routes/tentang'
@@ -23,6 +24,11 @@ const IndexRoute = IndexRouteImport.update({
 const BelajarRoute = BelajarRouteImport.update({
   id: '/belajar',
   path: '/belajar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BermainRoute = BermainRouteImport.update({
+  id: '/bermain',
+  path: '/bermain',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CaraBermainRoute = CaraBermainRouteImport.update({
@@ -44,6 +50,7 @@ const TentangRoute = TentangRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/belajar': typeof BelajarRoute
+  '/bermain': typeof BermainRoute
   '/cara-bermain': typeof CaraBermainRoute
   '/kartu': typeof KartuRoute
   '/tentang': typeof TentangRoute
@@ -51,6 +58,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/belajar': typeof BelajarRoute
+  '/bermain': typeof BermainRoute
   '/cara-bermain': typeof CaraBermainRoute
   '/kartu': typeof KartuRoute
   '/tentang': typeof TentangRoute
@@ -59,21 +67,31 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/belajar': typeof BelajarRoute
+  '/bermain': typeof BermainRoute
   '/cara-bermain': typeof CaraBermainRoute
   '/kartu': typeof KartuRoute
   '/tentang': typeof TentangRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/belajar' | '/cara-bermain' | '/kartu' | '/tentang'
+  fullPaths:
+    '/' | '/belajar' | '/bermain' | '/cara-bermain' | '/kartu' | '/tentang'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/belajar' | '/cara-bermain' | '/kartu' | '/tentang'
-  id: '__root__' | '/' | '/belajar' | '/cara-bermain' | '/kartu' | '/tentang'
+  to: '/' | '/belajar' | '/bermain' | '/cara-bermain' | '/kartu' | '/tentang'
+  id:
+    | '__root__'
+    | '/'
+    | '/belajar'
+    | '/bermain'
+    | '/cara-bermain'
+    | '/kartu'
+    | '/tentang'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BelajarRoute: typeof BelajarRoute
+  BermainRoute: typeof BermainRoute
   CaraBermainRoute: typeof CaraBermainRoute
   KartuRoute: typeof KartuRoute
   TentangRoute: typeof TentangRoute
@@ -93,6 +111,13 @@ declare module '@tanstack/react-router' {
       path: '/belajar'
       fullPath: '/belajar'
       preLoaderRoute: typeof BelajarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/bermain': {
+      id: '/bermain'
+      path: '/bermain'
+      fullPath: '/bermain'
+      preLoaderRoute: typeof BermainRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/cara-bermain': {
@@ -122,6 +147,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BelajarRoute: BelajarRoute,
+  BermainRoute: BermainRoute,
   CaraBermainRoute: CaraBermainRoute,
   KartuRoute: KartuRoute,
   TentangRoute: TentangRoute,
