@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BelajarRouteImport } from './routes/belajar'
 import { Route as CaraBermainRouteImport } from './routes/cara-bermain'
+import { Route as KartuRouteImport } from './routes/kartu'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -28,35 +29,44 @@ const CaraBermainRoute = CaraBermainRouteImport.update({
   path: '/cara-bermain',
   getParentRoute: () => rootRouteImport,
 } as any)
+const KartuRoute = KartuRouteImport.update({
+  id: '/kartu',
+  path: '/kartu',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/belajar': typeof BelajarRoute
   '/cara-bermain': typeof CaraBermainRoute
+  '/kartu': typeof KartuRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/belajar': typeof BelajarRoute
   '/cara-bermain': typeof CaraBermainRoute
+  '/kartu': typeof KartuRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/belajar': typeof BelajarRoute
   '/cara-bermain': typeof CaraBermainRoute
+  '/kartu': typeof KartuRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/belajar' | '/cara-bermain'
+  fullPaths: '/' | '/belajar' | '/cara-bermain' | '/kartu'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/belajar' | '/cara-bermain'
-  id: '__root__' | '/' | '/belajar' | '/cara-bermain'
+  to: '/' | '/belajar' | '/cara-bermain' | '/kartu'
+  id: '__root__' | '/' | '/belajar' | '/cara-bermain' | '/kartu'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BelajarRoute: typeof BelajarRoute
   CaraBermainRoute: typeof CaraBermainRoute
+  KartuRoute: typeof KartuRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -82,6 +92,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CaraBermainRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/kartu': {
+      id: '/kartu'
+      path: '/kartu'
+      fullPath: '/kartu'
+      preLoaderRoute: typeof KartuRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -89,6 +106,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BelajarRoute: BelajarRoute,
   CaraBermainRoute: CaraBermainRoute,
+  KartuRoute: KartuRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
