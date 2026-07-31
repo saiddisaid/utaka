@@ -10,33 +10,115 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BelajarRouteImport } from './routes/belajar'
+import { Route as BermainRouteImport } from './routes/bermain'
+import { Route as CaraBermainRouteImport } from './routes/cara-bermain'
+import { Route as KartuRouteImport } from './routes/kartu'
+import { Route as RefleksiRouteImport } from './routes/refleksi'
+import { Route as TentangRouteImport } from './routes/tentang'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BelajarRoute = BelajarRouteImport.update({
+  id: '/belajar',
+  path: '/belajar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BermainRoute = BermainRouteImport.update({
+  id: '/bermain',
+  path: '/bermain',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CaraBermainRoute = CaraBermainRouteImport.update({
+  id: '/cara-bermain',
+  path: '/cara-bermain',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KartuRoute = KartuRouteImport.update({
+  id: '/kartu',
+  path: '/kartu',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RefleksiRoute = RefleksiRouteImport.update({
+  id: '/refleksi',
+  path: '/refleksi',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TentangRoute = TentangRouteImport.update({
+  id: '/tentang',
+  path: '/tentang',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/belajar': typeof BelajarRoute
+  '/bermain': typeof BermainRoute
+  '/cara-bermain': typeof CaraBermainRoute
+  '/kartu': typeof KartuRoute
+  '/refleksi': typeof RefleksiRoute
+  '/tentang': typeof TentangRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/belajar': typeof BelajarRoute
+  '/bermain': typeof BermainRoute
+  '/cara-bermain': typeof CaraBermainRoute
+  '/kartu': typeof KartuRoute
+  '/refleksi': typeof RefleksiRoute
+  '/tentang': typeof TentangRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/belajar': typeof BelajarRoute
+  '/bermain': typeof BermainRoute
+  '/cara-bermain': typeof CaraBermainRoute
+  '/kartu': typeof KartuRoute
+  '/refleksi': typeof RefleksiRoute
+  '/tentang': typeof TentangRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/belajar'
+    | '/bermain'
+    | '/cara-bermain'
+    | '/kartu'
+    | '/refleksi'
+    | '/tentang'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/belajar'
+    | '/bermain'
+    | '/cara-bermain'
+    | '/kartu'
+    | '/refleksi'
+    | '/tentang'
+  id:
+    | '__root__'
+    | '/'
+    | '/belajar'
+    | '/bermain'
+    | '/cara-bermain'
+    | '/kartu'
+    | '/refleksi'
+    | '/tentang'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BelajarRoute: typeof BelajarRoute
+  BermainRoute: typeof BermainRoute
+  CaraBermainRoute: typeof CaraBermainRoute
+  KartuRoute: typeof KartuRoute
+  RefleksiRoute: typeof RefleksiRoute
+  TentangRoute: typeof TentangRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,22 +130,60 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/belajar': {
+      id: '/belajar'
+      path: '/belajar'
+      fullPath: '/belajar'
+      preLoaderRoute: typeof BelajarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/bermain': {
+      id: '/bermain'
+      path: '/bermain'
+      fullPath: '/bermain'
+      preLoaderRoute: typeof BermainRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cara-bermain': {
+      id: '/cara-bermain'
+      path: '/cara-bermain'
+      fullPath: '/cara-bermain'
+      preLoaderRoute: typeof CaraBermainRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kartu': {
+      id: '/kartu'
+      path: '/kartu'
+      fullPath: '/kartu'
+      preLoaderRoute: typeof KartuRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/refleksi': {
+      id: '/refleksi'
+      path: '/refleksi'
+      fullPath: '/refleksi'
+      preLoaderRoute: typeof RefleksiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tentang': {
+      id: '/tentang'
+      path: '/tentang'
+      fullPath: '/tentang'
+      preLoaderRoute: typeof TentangRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BelajarRoute: BelajarRoute,
+  BermainRoute: BermainRoute,
+  CaraBermainRoute: CaraBermainRoute,
+  KartuRoute: KartuRoute,
+  RefleksiRoute: RefleksiRoute,
+  TentangRoute: TentangRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
