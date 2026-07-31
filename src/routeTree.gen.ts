@@ -14,6 +14,7 @@ import { Route as BelajarRouteImport } from './routes/belajar'
 import { Route as BermainRouteImport } from './routes/bermain'
 import { Route as CaraBermainRouteImport } from './routes/cara-bermain'
 import { Route as KartuRouteImport } from './routes/kartu'
+import { Route as RefleksiRouteImport } from './routes/refleksi'
 import { Route as TentangRouteImport } from './routes/tentang'
 
 const IndexRoute = IndexRouteImport.update({
@@ -41,6 +42,11 @@ const KartuRoute = KartuRouteImport.update({
   path: '/kartu',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RefleksiRoute = RefleksiRouteImport.update({
+  id: '/refleksi',
+  path: '/refleksi',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TentangRoute = TentangRouteImport.update({
   id: '/tentang',
   path: '/tentang',
@@ -53,6 +59,7 @@ export interface FileRoutesByFullPath {
   '/bermain': typeof BermainRoute
   '/cara-bermain': typeof CaraBermainRoute
   '/kartu': typeof KartuRoute
+  '/refleksi': typeof RefleksiRoute
   '/tentang': typeof TentangRoute
 }
 export interface FileRoutesByTo {
@@ -61,6 +68,7 @@ export interface FileRoutesByTo {
   '/bermain': typeof BermainRoute
   '/cara-bermain': typeof CaraBermainRoute
   '/kartu': typeof KartuRoute
+  '/refleksi': typeof RefleksiRoute
   '/tentang': typeof TentangRoute
 }
 export interface FileRoutesById {
@@ -70,14 +78,28 @@ export interface FileRoutesById {
   '/bermain': typeof BermainRoute
   '/cara-bermain': typeof CaraBermainRoute
   '/kartu': typeof KartuRoute
+  '/refleksi': typeof RefleksiRoute
   '/tentang': typeof TentangRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/belajar' | '/bermain' | '/cara-bermain' | '/kartu' | '/tentang'
+    | '/'
+    | '/belajar'
+    | '/bermain'
+    | '/cara-bermain'
+    | '/kartu'
+    | '/refleksi'
+    | '/tentang'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/belajar' | '/bermain' | '/cara-bermain' | '/kartu' | '/tentang'
+  to:
+    | '/'
+    | '/belajar'
+    | '/bermain'
+    | '/cara-bermain'
+    | '/kartu'
+    | '/refleksi'
+    | '/tentang'
   id:
     | '__root__'
     | '/'
@@ -85,6 +107,7 @@ export interface FileRouteTypes {
     | '/bermain'
     | '/cara-bermain'
     | '/kartu'
+    | '/refleksi'
     | '/tentang'
   fileRoutesById: FileRoutesById
 }
@@ -94,6 +117,7 @@ export interface RootRouteChildren {
   BermainRoute: typeof BermainRoute
   CaraBermainRoute: typeof CaraBermainRoute
   KartuRoute: typeof KartuRoute
+  RefleksiRoute: typeof RefleksiRoute
   TentangRoute: typeof TentangRoute
 }
 
@@ -134,6 +158,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof KartuRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/refleksi': {
+      id: '/refleksi'
+      path: '/refleksi'
+      fullPath: '/refleksi'
+      preLoaderRoute: typeof RefleksiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/tentang': {
       id: '/tentang'
       path: '/tentang'
@@ -150,8 +181,19 @@ const rootRouteChildren: RootRouteChildren = {
   BermainRoute: BermainRoute,
   CaraBermainRoute: CaraBermainRoute,
   KartuRoute: KartuRoute,
+  RefleksiRoute: RefleksiRoute,
   TentangRoute: TentangRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
