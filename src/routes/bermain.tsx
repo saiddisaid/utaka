@@ -421,12 +421,32 @@ function BermainPage() {
   const current = players[turn]!;
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
+      {restored && (
+        <div className="mb-4 flex flex-wrap items-center gap-3 rounded-2xl bg-tangga-soft px-4 py-3 text-sm font-semibold text-tangga-ink">
+          <span>💾 Progres permainanmu sebelumnya berhasil dilanjutkan.</span>
+          <button
+            type="button"
+            onClick={() => setRestored(false)}
+            className="ml-auto rounded-full bg-card px-3 py-1 text-xs font-bold"
+          >
+            Tutup
+          </button>
+        </div>
+      )}
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
         <div className="min-w-0">
           <GameBoard players={players} activeSquare={current.pos} />
         </div>
 
         <aside className="space-y-4">
+          <button
+            type="button"
+            onClick={() => setSoundOn((v) => !v)}
+            className="w-full rounded-2xl border-2 border-border px-5 py-3 text-sm font-bold"
+          >
+            {soundOn ? "🔊 Suara Aktif" : "🔇 Suara Mati"}
+          </button>
+
           <div className="card-soft p-5">
             <div className="flex min-w-0 items-center gap-3">
               <Pion color={playerColors[current.id]!} size={30} active />
