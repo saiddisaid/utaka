@@ -72,8 +72,8 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
-  --shadow-soft: 0 10px 30px -12px oklch(0.55 0.09 258 / 0.28);
-  --shadow-lift: 0 18px 45px -18px oklch(0.5 0.12 258 / 0.38);
+  --shadow-soft: 0 12px 30px -14px rgba(0, 0, 0, 0.65);
+  --shadow-lift: 0 22px 50px -18px rgba(245, 40, 114, 0.35);
 }
 
 :root {
@@ -143,8 +143,8 @@
   --chart-5: oklch(0.78 0.19 85);
 
 
-  --sidebar: oklch(0.985 0.008 250);
-  --sidebar-foreground: oklch(0.28 0.035 268);
+  --sidebar: #191347;
+  --sidebar-foreground: #f4f2ff;
   --sidebar-primary: oklch(0.68 0.13 245);
   --sidebar-primary-foreground: oklch(0.99 0.005 250);
   --sidebar-accent: oklch(0.955 0.02 250);
@@ -418,3 +418,10 @@
 .teen-wave { animation: teen-wave 1.6s ease-in-out infinite; transform-origin: 100% 0%; }
 .heart-float { animation: heart-float 3.6s ease-in linear infinite; }
 .spin-slow { animation: spin-slow 14s linear infinite; }
+
+/* ---------- WORDMARK UTAKA ---------- */
+.utaka-word span:nth-child(1) { color: var(--board-red); }
+.utaka-word span:nth-child(2) { color: var(--board-orange); }
+.utaka-word span:nth-child(3) { color: var(--board-yellow); }
+.utaka-word span:nth-child(4) { color: #22c55e; }
+.utaka-word span:nth-child(5) { color: #38bdf8; }
