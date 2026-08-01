@@ -18,6 +18,7 @@ import { Route as OnlineRouteImport } from './routes/online'
 import { Route as RefleksiRouteImport } from './routes/refleksi'
 import { Route as TentangRouteImport } from './routes/tentang'
 import { Route as ApiTtsRouteImport } from './routes/api/tts'
+import { Route as MainKodeRouteImport } from './routes/main.$kode'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -64,6 +65,11 @@ const ApiTtsRoute = ApiTtsRouteImport.update({
   path: '/api/tts',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MainKodeRoute = MainKodeRouteImport.update({
+  id: '/main/$kode',
+  path: '/main/$kode',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -75,6 +81,7 @@ export interface FileRoutesByFullPath {
   '/refleksi': typeof RefleksiRoute
   '/tentang': typeof TentangRoute
   '/api/tts': typeof ApiTtsRoute
+  '/main/$kode': typeof MainKodeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -86,6 +93,7 @@ export interface FileRoutesByTo {
   '/refleksi': typeof RefleksiRoute
   '/tentang': typeof TentangRoute
   '/api/tts': typeof ApiTtsRoute
+  '/main/$kode': typeof MainKodeRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -98,6 +106,7 @@ export interface FileRoutesById {
   '/refleksi': typeof RefleksiRoute
   '/tentang': typeof TentangRoute
   '/api/tts': typeof ApiTtsRoute
+  '/main/$kode': typeof MainKodeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -111,6 +120,7 @@ export interface FileRouteTypes {
     | '/refleksi'
     | '/tentang'
     | '/api/tts'
+    | '/main/$kode'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -122,6 +132,7 @@ export interface FileRouteTypes {
     | '/refleksi'
     | '/tentang'
     | '/api/tts'
+    | '/main/$kode'
   id:
     | '__root__'
     | '/'
@@ -133,6 +144,7 @@ export interface FileRouteTypes {
     | '/refleksi'
     | '/tentang'
     | '/api/tts'
+    | '/main/$kode'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -145,6 +157,7 @@ export interface RootRouteChildren {
   RefleksiRoute: typeof RefleksiRoute
   TentangRoute: typeof TentangRoute
   ApiTtsRoute: typeof ApiTtsRoute
+  MainKodeRoute: typeof MainKodeRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -212,6 +225,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiTtsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/main/$kode': {
+      id: '/main/$kode'
+      path: '/main/$kode'
+      fullPath: '/main/$kode'
+      preLoaderRoute: typeof MainKodeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -225,6 +245,7 @@ const rootRouteChildren: RootRouteChildren = {
   RefleksiRoute: RefleksiRoute,
   TentangRoute: TentangRoute,
   ApiTtsRoute: ApiTtsRoute,
+  MainKodeRoute: MainKodeRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
