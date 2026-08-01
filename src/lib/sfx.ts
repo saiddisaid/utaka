@@ -1,10 +1,16 @@
 /**
- * Efek suara UTAKA — dibangkitkan dengan Web Audio API (tanpa file audio),
- * sehingga ringan dan bisa langsung dipakai di browser.
+ * Efek suara & musik latar UTAKA — dibangkitkan dengan Web Audio API
+ * (tanpa file audio), sehingga ringan dan bisa langsung dipakai di browser.
  */
 
 let ctx: AudioContext | null = null;
+let master: GainNode | null = null;
+let musicGain: GainNode | null = null;
+let musicTimer: number | null = null;
+let musicStep = 0;
 let muted = false;
+
+const SFX_VOLUME = 0.9; // lebih keras dari sebelumnya
 
 function ac(): AudioContext | null {
   if (typeof window === "undefined") return null;
@@ -15,6 +21,12 @@ function ac(): AudioContext | null {
         .webkitAudioContext;
     if (!Ctor) return null;
     ctx = new Ctor();
+    master = ctx.createGain();
+    master.gain.value = muted ? 0 : SFX_VOLUME;
+    master.connect(ctx.destination);
+    musicGain = ctx.createGain();
+    musicGain.gain.value = 0.35;
+    musicGain.connect(master);
   }
   if (ctx.state === "suspended") void ctx.resume().catch(() => {});
   return ctx;
@@ -22,6 +34,8 @@ function ac(): AudioContext | null {
 
 export function setMuted(value: boolean) {
   muted = value;
+  ac();
+  if (master && ctx) master.gain.setTargetAtTime(muted ? 0 : SFX_VOLUME, ctx.currentTime, 0.05);
 }
 
 export function isMuted() {
@@ -33,6 +47,12 @@ export function unlockAudio() {
   ac();
 }
 
+/** Menurunkan musik latar sementara (mis. saat narasi kartu dibacakan). */
+export function duckMusic(on: boolean) {
+  if (!musicGain || !ctx) return;
+  musicGain.gain.setTargetAtTime(on ? 0.06 : 0.35, ctx.currentTime, 0.15);
+}
+
 type ToneOpts = {
   freq: number;
   duration?: number;
@@ -40,18 +60,20 @@ type ToneOpts = {
   gain?: number;
   delay?: number;
   slideTo?: number;
+  dest?: AudioNode;
 };
 
 function tone({
   freq,
   duration = 0.18,
   type = "sine",
-  gain = 0.18,
+  gain = 0.3,
   delay = 0,
   slideTo,
+  dest,
 }: ToneOpts) {
   const c = ac();
-  if (!c || muted) return;
+  if (!c || !master) return;
   const t0 = c.currentTime + delay;
   const osc = c.createOscillator();
   const g = c.createGain();
@@ -59,16 +81,16 @@ function tone({
   osc.frequency.setValueAtTime(freq, t0);
   if (slideTo) osc.frequency.exponentialRampToValueAtTime(Math.max(slideTo, 1), t0 + duration);
   g.gain.setValueAtTime(0.0001, t0);
-  g.gain.exponentialRampToValueAtTime(gain, t0 + 0.015);
+  g.gain.exponentialRampToValueAtTime(gain, t0 + 0.02);
   g.gain.exponentialRampToValueAtTime(0.0001, t0 + duration);
-  osc.connect(g).connect(c.destination);
+  osc.connect(g).connect(dest ?? master);
   osc.start(t0);
-  osc.stop(t0 + duration + 0.05);
+  osc.stop(t0 + duration + 0.08);
 }
 
-function noise(duration = 0.12, gain = 0.12, delay = 0) {
+function noise(duration = 0.12, gain = 0.25, delay = 0) {
   const c = ac();
-  if (!c || muted) return;
+  if (!c || !master) return;
   const t0 = c.currentTime + delay;
   const frames = Math.floor(c.sampleRate * duration);
   const buffer = c.createBuffer(1, frames, c.sampleRate);
@@ -80,59 +102,123 @@ function noise(duration = 0.12, gain = 0.12, delay = 0) {
   g.gain.setValueAtTime(gain, t0);
   const filter = c.createBiquadFilter();
   filter.type = "bandpass";
-  filter.frequency.value = 1800;
-  src.connect(filter).connect(g).connect(c.destination);
+  filter.frequency.value = 1500;
+  src.connect(filter).connect(g).connect(master);
   src.start(t0);
 }
 
-/** Dadu diputar: rentetan bunyi kocokan. */
+/* ---------------- Musik latar ---------------- */
+
+const MELODY = [
+  659, 784, 880, 784, 659, 587, 659, 523, 587, 659, 784, 880, 988, 880, 784, 659,
+];
+const BASS = [131, 131, 165, 165, 196, 196, 165, 165];
+const BEAT = 0.28;
+
+function musicTick() {
+  const c = ac();
+  if (!c || !musicGain) return;
+  const i = musicStep % MELODY.length;
+  tone({
+    freq: MELODY[i]!,
+    duration: BEAT * 0.85,
+    type: "triangle",
+    gain: 0.18,
+    dest: musicGain,
+  });
+  if (i % 2 === 0) {
+    tone({
+      freq: BASS[(musicStep / 2) % BASS.length]!,
+      duration: BEAT * 1.4,
+      type: "sawtooth",
+      gain: 0.12,
+      dest: musicGain,
+    });
+  }
+  if (i % 4 === 2) {
+    tone({ freq: MELODY[i]! * 2, duration: 0.12, type: "sine", gain: 0.07, dest: musicGain });
+  }
+  musicStep += 1;
+}
+
+/** Musik latar ceria & energik saat bermain. */
+export function startMusic() {
+  const c = ac();
+  if (!c || musicTimer !== null) return;
+  musicStep = 0;
+  musicTick();
+  musicTimer = window.setInterval(musicTick, BEAT * 1000);
+}
+
+export function stopMusic() {
+  if (musicTimer !== null) {
+    window.clearInterval(musicTimer);
+    musicTimer = null;
+  }
+}
+
+export function isMusicPlaying() {
+  return musicTimer !== null;
+}
+
+/* ---------------- Efek permainan ---------------- */
+
+/** Dadu diputar: rentetan bunyi kocokan yang lebih tebal & lebih lama. */
 export function sfxDiceRoll() {
-  for (let i = 0; i < 7; i++) noise(0.07, 0.1, i * 0.075);
-  tone({ freq: 520, duration: 0.12, type: "triangle", gain: 0.14, delay: 0.55 });
+  for (let i = 0; i < 14; i++) noise(0.09, 0.3, i * 0.085);
+  tone({ freq: 520, duration: 0.2, type: "triangle", gain: 0.35, delay: 1.15 });
 }
 
 /** Bidak melangkah satu petak. */
 export function sfxStep() {
-  tone({ freq: 640, duration: 0.07, type: "square", gain: 0.07 });
+  tone({ freq: 520, duration: 0.12, type: "square", gain: 0.22 });
+  tone({ freq: 780, duration: 0.09, type: "triangle", gain: 0.14, delay: 0.03 });
 }
 
 /** Naik tangga: nada ceria menanjak. */
 export function sfxLadder() {
   [523, 659, 784, 1046].forEach((f, i) =>
-    tone({ freq: f, duration: 0.16, type: "triangle", gain: 0.16, delay: i * 0.09 }),
+    tone({ freq: f, duration: 0.22, type: "triangle", gain: 0.32, delay: i * 0.11 }),
   );
 }
 
 /** Turun ular: nada meluncur turun. */
 export function sfxSnake() {
-  tone({ freq: 620, slideTo: 130, duration: 0.7, type: "sawtooth", gain: 0.14 });
-  tone({ freq: 310, slideTo: 90, duration: 0.7, type: "sine", gain: 0.1, delay: 0.05 });
+  tone({ freq: 620, slideTo: 120, duration: 0.9, type: "sawtooth", gain: 0.3 });
+  tone({ freq: 310, slideTo: 85, duration: 0.9, type: "sine", gain: 0.22, delay: 0.05 });
 }
 
 /** Kartu Fun Fact: bunyi "ting" penasaran. */
 export function sfxFunFact() {
-  tone({ freq: 880, duration: 0.14, type: "sine", gain: 0.14 });
-  tone({ freq: 1320, duration: 0.22, type: "sine", gain: 0.12, delay: 0.1 });
+  [880, 1174, 1568].forEach((f, i) =>
+    tone({ freq: f, duration: 0.3, type: "sine", gain: 0.3, delay: i * 0.12 }),
+  );
+  tone({ freq: 1976, duration: 0.6, type: "sine", gain: 0.16, delay: 0.4 });
 }
 
-/** Popup kartu tangga (mood positif & hangat). */
+/** Popup kartu tangga: fanfare gembira & positif. */
 export function sfxCardTangga() {
-  [659, 880, 1174].forEach((f, i) =>
-    tone({ freq: f, duration: 0.24, type: "sine", gain: 0.14, delay: i * 0.1 }),
+  [523, 659, 784, 1046, 1318].forEach((f, i) =>
+    tone({ freq: f, duration: 0.35, type: "triangle", gain: 0.34, delay: i * 0.1 }),
+  );
+  [1046, 1318, 1568].forEach((f, i) =>
+    tone({ freq: f, duration: 1.2, type: "sine", gain: 0.18, delay: 0.55 + i * 0.02 }),
   );
 }
 
-/** Popup kartu ular (mood reflektif & sendu). */
+/** Popup kartu ular: nada "yaaah" yang menyesal. */
 export function sfxCardUlar() {
-  [523, 466, 392].forEach((f, i) =>
-    tone({ freq: f, duration: 0.3, type: "triangle", gain: 0.14, delay: i * 0.12 }),
+  tone({ freq: 660, slideTo: 440, duration: 0.55, type: "triangle", gain: 0.32 });
+  tone({ freq: 440, slideTo: 300, duration: 0.8, type: "sine", gain: 0.28, delay: 0.45 });
+  [392, 349, 294].forEach((f, i) =>
+    tone({ freq: f, duration: 0.9, type: "sawtooth", gain: 0.14, delay: 0.9 + i * 0.18 }),
   );
 }
 
 /** Menang permainan. */
 export function sfxWin() {
   [523, 659, 784, 1046, 1318].forEach((f, i) =>
-    tone({ freq: f, duration: 0.28, type: "triangle", gain: 0.16, delay: i * 0.11 }),
+    tone({ freq: f, duration: 0.35, type: "triangle", gain: 0.34, delay: i * 0.12 }),
   );
 }
 
