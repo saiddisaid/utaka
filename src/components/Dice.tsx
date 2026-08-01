@@ -21,7 +21,7 @@ function Face({ value, className }: { value: number; className: string }) {
   return (
     <div className={`dice3d-face ${className}`}>
       {Array.from({ length: 9 }, (_, i) => (
-        <span key={i}>{pips.includes(i + 1) ? <span className="dice3d-pip" /> : null}</span>
+        <span key={i} className={pips.includes(i + 1) ? "dice3d-pip" : ""} />
       ))}
     </div>
   );
