@@ -10,7 +10,7 @@ export const Route = createFileRoute("/tentang")({
       {
         name: "description",
         content:
-          "Tentang UTAKA: tujuan website, latar belakang penelitian, dan tim pengembang media psikoedukasi regulasi emosi remaja.",
+          "Tentang UTAKA: tujuan website, latar belakang penelitian, dan tim peneliti media psikoedukasi regulasi emosi remaja.",
       },
       { property: "og:title", content: "Tentang UTAKA" },
       {
