@@ -105,6 +105,7 @@ function BermainPage() {
           setTotalRolls(s.totalRolls ?? 0);
           setElapsed(s.elapsed ?? 0);
           setStartedAt(Date.now() - (s.elapsed ?? 0));
+          if (s.voice) setVoice(s.voice);
           logId.current = (s.log?.[0]?.id ?? 0) + 1;
           setRestored(true);
         }
@@ -129,6 +130,7 @@ function BermainPage() {
         totalRolls,
         startedAt,
         elapsed,
+        voice,
       };
       try {
         localStorage.setItem(SAVE_KEY, JSON.stringify(data));
@@ -138,7 +140,8 @@ function BermainPage() {
     } else if (phase !== "playing") {
       localStorage.removeItem(SAVE_KEY);
     }
-  }, [phase, count, names, players, turn, log, totalRolls, startedAt, elapsed]);
+  }, [phase, count, names, players, turn, log, totalRolls, startedAt, elapsed, voice]);
+
 
   useEffect(() => {
     setMuted(!soundOn);
