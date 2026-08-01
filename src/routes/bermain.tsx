@@ -556,7 +556,7 @@ function BermainPage() {
         </aside>
       </div>
 
-      {card && <CardPopup card={card} onClose={closeCard} narrateOnOpen />}
+      {card && <CardPopup card={card} onClose={closeCard} narrateOnOpen voice={voice} />}
     </div>
   );
 }
