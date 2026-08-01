@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Volume2, VolumeX, Loader2 } from "lucide-react";
 import type { EduCard } from "@/data/cards";
 import { typeStyles } from "./EduCardTile";
