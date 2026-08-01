@@ -202,6 +202,8 @@ function BermainPage() {
     await sleep(250);
     setDice(value);
     setRolling(false);
+    // tunggu animasi dadu benar-benar berhenti di angka akhir sebelum bidak jalan
+    await sleep(1100);
     setTotalRolls((n) => n + 1);
 
     const current = players[turn]!;
