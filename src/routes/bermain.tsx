@@ -141,6 +141,13 @@ function BermainPage() {
     setMuted(!soundOn);
   }, [soundOn]);
 
+  /* ---- Musik latar saat bermain ---- */
+  useEffect(() => {
+    if (phase === "playing" && soundOn) startMusic();
+    else stopMusic();
+    return () => stopMusic();
+  }, [phase, soundOn]);
+
   useEffect(() => {
     if (phase !== "playing") return;
     const t = setInterval(() => setElapsed(Date.now() - startedAt), 1000);
