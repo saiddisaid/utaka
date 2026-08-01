@@ -160,7 +160,11 @@ export function CardPopup({
     [],
   );
 
+  const lockedByNarration = narrateOnOpen && (!done || speaking);
+
   const replay = () => {
+    // Saat kartu wajib dibacakan, pemain tidak boleh menghentikan narasi.
+    if (lockedByNarration) return;
     if (speaking) {
       cancelledRef.current = true;
       stopNarration();
@@ -186,11 +190,13 @@ export function CardPopup({
           <button
             type="button"
             onClick={replay}
-            className="inline-flex items-center gap-1.5 rounded-full bg-card/80 px-3 py-1 text-[11px] font-bold text-foreground/70 transition-transform hover:scale-105"
+            disabled={lockedByNarration}
+            className="inline-flex items-center gap-1.5 rounded-full bg-card/80 px-3 py-1 text-[11px] font-bold text-foreground/70 transition-transform hover:scale-105 disabled:cursor-not-allowed disabled:hover:scale-100"
           >
             {speaking ? (
               <>
-                <Volume2 className="h-3.5 w-3.5 animate-pulse" /> Sedang dibacakan… (hentikan)
+                <Volume2 className="h-3.5 w-3.5 animate-pulse" />{" "}
+                {lockedByNarration ? "Sedang dibacakan…" : "Sedang dibacakan… (hentikan)"}
               </>
             ) : done ? (
               <>
@@ -223,10 +229,10 @@ export function CardPopup({
           <button
             type="button"
             onClick={onClose}
-            disabled={narrateOnOpen && !done}
+            disabled={lockedByNarration}
             className="w-full rounded-2xl bg-primary px-5 py-3 font-display text-base font-extrabold text-primary-foreground transition-transform hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:scale-100"
           >
-            {!narrateOnOpen || done ? ctaLabel : "Dengarkan dulu kartunya…"}
+            {lockedByNarration ? "Dengarkan dulu kartunya…" : ctaLabel}
           </button>
         </div>
 
