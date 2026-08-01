@@ -324,3 +324,14 @@ export async function resetRoom(token: string) {
   await logEvent(room.id, [`Room disetel ulang oleh host. (${players.length} pemain siap)`]);
   return { ok: true, board: BOARD_SIZE };
 }
+
+export async function linkAccount(token: string, userId: string) {
+  const { data: tok } = await supabaseAdmin
+    .from("room_player_tokens")
+    .select("player_id")
+    .eq("token", token)
+    .maybeSingle();
+  if (!tok) return { ok: false };
+  await supabaseAdmin.from("room_players").update({ user_id: userId }).eq("id", tok.player_id);
+  return { ok: true };
+}
