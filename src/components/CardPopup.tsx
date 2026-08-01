@@ -127,6 +127,7 @@ export function CardPopup({
     duckMusic(true);
     void narrate(text)
       .catch((err) => {
+        if (cancelled || (err as Error)?.name === "AbortError") return;
         console.error("Narasi kartu gagal:", err);
       })
       .finally(() => {
