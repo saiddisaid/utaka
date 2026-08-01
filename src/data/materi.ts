@@ -12,7 +12,7 @@ export const strategies: Strategy[] = [
   {
     id: "reappraisal",
     code: "Y1",
-    name: "Cognitive Reappraisal",
+    name: "Penilaian Ulang Pikiran",
     emoji: "🌱",
     short:
       "Mengubah cara pandang terhadap situasi yang menyakitkan agar dampak emosinya menjadi lebih ringan.",
@@ -24,7 +24,7 @@ export const strategies: Strategy[] = [
   {
     id: "acceptance",
     code: "Y2",
-    name: "Acceptance",
+    name: "Penerimaan Diri",
     emoji: "🤍",
     short:
       "Menerima perasaan yang muncul apa adanya, tanpa menghakimi diri sendiri dan tanpa memaksakan keadaan.",
@@ -36,7 +36,7 @@ export const strategies: Strategy[] = [
   {
     id: "distraction",
     code: "Y3",
-    name: "Distraction",
+    name: "Pengalihan Perhatian",
     emoji: "🎈",
     short:
       "Mengalihkan perhatian ke aktivitas positif untuk memutus rantai pikiran yang berputar-putar.",
@@ -48,7 +48,7 @@ export const strategies: Strategy[] = [
   {
     id: "social-support",
     code: "Y4",
-    name: "Social Support",
+    name: "Dukungan Sosial",
     emoji: "🫂",
     short:
       "Membuka diri dan mencari dukungan dari orang yang kamu percaya ketika perasaan terasa berat.",
@@ -60,7 +60,7 @@ export const strategies: Strategy[] = [
   {
     id: "problem-solving",
     code: "Y5",
-    name: "Problem-Solving",
+    name: "Penyelesaian Masalah",
     emoji: "🧭",
     short:
       "Mengambil langkah nyata dan membuat batasan sehat untuk menyelesaikan sumber masalah.",
@@ -72,7 +72,7 @@ export const strategies: Strategy[] = [
   {
     id: "mindfulness",
     code: "Y6",
-    name: "Mindfulness & Emotional Flexibility",
+    name: "Kesadaran Penuh & Kelenturan Emosi",
     emoji: "🌤️",
     short:
       "Menyadari emosi yang muncul tanpa langsung bereaksi, lalu memilih strategi yang paling pas dengan situasi.",
