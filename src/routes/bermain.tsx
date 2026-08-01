@@ -449,13 +449,34 @@ function BermainPage() {
         </div>
 
         <aside className="space-y-4">
-          <button
-            type="button"
-            onClick={() => setSoundOn((v) => !v)}
-            className="w-full rounded-2xl border-2 border-border px-5 py-3 text-sm font-bold"
-          >
-            {soundOn ? "🔊 Suara Aktif" : "🔇 Suara Mati"}
-          </button>
+          <div className="card-soft space-y-3 p-5">
+            <button
+              type="button"
+              onClick={() => setSoundOn((v) => !v)}
+              className="w-full rounded-2xl border-2 border-border px-5 py-3 text-sm font-bold"
+            >
+              {soundOn ? "🔊 Suara Aktif" : "🔇 Suara Mati"}
+            </button>
+            <div>
+              <label
+                htmlFor="voice"
+                className="text-xs font-bold uppercase text-muted-foreground"
+              >
+                Suara Narator Kartu
+              </label>
+              <select
+                id="voice"
+                value={voice}
+                onChange={(e) => setVoice(e.target.value as NarratorVoice)}
+                className="mt-2 w-full rounded-2xl border-2 border-border bg-card px-4 py-2.5 text-sm font-semibold"
+              >
+                <option value="hangat">Hangat &amp; Ramah</option>
+                <option value="ceria">Ceria &amp; Bersemangat</option>
+                <option value="tenang">Tenang &amp; Lembut</option>
+              </select>
+            </div>
+          </div>
+
 
           <div className="card-soft p-5">
             <div className="flex min-w-0 items-center gap-3">
