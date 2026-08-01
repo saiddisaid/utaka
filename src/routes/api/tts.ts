@@ -81,6 +81,7 @@ export const Route = createFileRoute("/api/tts")({
             input,
             voice: preset.openai,
             instructions: `${preset.gaya}. Gunakan pelafalan Bahasa Indonesia yang jelas dan natural.`,
+            speed: 1.25,
             stream_format: "sse",
             response_format: "pcm",
           }),
