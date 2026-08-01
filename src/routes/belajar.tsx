@@ -86,7 +86,7 @@ function Belajar() {
                   {s.emoji}
                 </span>
                 <span className="mt-2 block text-xs font-bold text-muted-foreground">
-                  Strategi {i + 1} · {s.code}
+                  Strategi {i + 1}
                 </span>
               </div>
               <div className="min-w-0">

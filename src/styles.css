@@ -48,6 +48,16 @@
   --color-funfact-soft: var(--funfact-soft);
   --color-funfact-ink: var(--funfact-ink);
 
+  --color-board-red: var(--board-red);
+  --color-board-navy: var(--board-navy);
+  --color-board-blue: var(--board-blue);
+  --color-board-yellow: var(--board-yellow);
+  --color-board-magenta: var(--board-magenta);
+  --color-board-pink: var(--board-pink);
+  --color-board-orange: var(--board-orange);
+  --color-board-green: var(--board-green);
+
+
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
@@ -69,56 +79,67 @@
 :root {
   --radius: 1.15rem;
 
-  --background: oklch(0.995 0.003 95);
-  --foreground: oklch(0.28 0.035 268);
-  --cream: oklch(0.972 0.018 88);
+  --background: oklch(0.99 0.006 250);
+  --foreground: oklch(0.22 0.09 268);
+  --cream: oklch(0.96 0.03 95);
 
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.28 0.035 268);
+  --card-foreground: oklch(0.22 0.09 268);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.28 0.035 268);
+  --popover-foreground: oklch(0.22 0.09 268);
 
-  /* Biru lembut = CTA */
-  --primary: oklch(0.68 0.13 245);
+  /* Biru kuat = CTA */
+  --primary: oklch(0.5 0.22 264);
   --primary-foreground: oklch(0.99 0.005 250);
 
-  --secondary: oklch(0.955 0.02 250);
-  --secondary-foreground: oklch(0.34 0.05 265);
-  --muted: oklch(0.965 0.012 250);
-  --muted-foreground: oklch(0.52 0.03 265);
-  --accent: oklch(0.94 0.035 330);
-  --accent-foreground: oklch(0.35 0.08 340);
-  --destructive: oklch(0.62 0.19 25);
+  --secondary: oklch(0.92 0.06 250);
+  --secondary-foreground: oklch(0.26 0.12 265);
+  --muted: oklch(0.95 0.03 250);
+  --muted-foreground: oklch(0.42 0.07 265);
+  --accent: oklch(0.68 0.24 8);
+  --accent-foreground: oklch(0.99 0.01 340);
+  --destructive: oklch(0.56 0.24 27);
   --destructive-foreground: oklch(0.99 0.005 250);
-  --border: oklch(0.92 0.012 255);
-  --input: oklch(0.92 0.012 255);
-  --ring: oklch(0.75 0.09 245);
+  --border: oklch(0.86 0.03 255);
+  --input: oklch(0.86 0.03 255);
+  --ring: oklch(0.5 0.22 264);
 
-  /* Hijau pastel = Tangga */
-  --tangga: oklch(0.8 0.12 150);
-  --tangga-soft: oklch(0.955 0.045 152);
-  --tangga-ink: oklch(0.44 0.11 155);
+  /* Hijau terang = Tangga */
+  --tangga: oklch(0.72 0.22 138);
+  --tangga-soft: oklch(0.92 0.13 140);
+  --tangga-ink: oklch(0.36 0.14 145);
 
-  /* Ungu pastel = Ular */
-  --ular: oklch(0.75 0.11 305);
-  --ular-soft: oklch(0.955 0.035 305);
-  --ular-ink: oklch(0.44 0.13 303);
+  /* Ungu/magenta kuat = Ular */
+  --ular: oklch(0.58 0.26 320);
+  --ular-soft: oklch(0.91 0.09 320);
+  --ular-ink: oklch(0.35 0.2 318);
 
-  /* Pink pastel = Fun Fact */
-  --funfact: oklch(0.79 0.11 355);
-  --funfact-soft: oklch(0.96 0.03 355);
-  --funfact-ink: oklch(0.48 0.15 0);
+  /* Pink menyala = Fun Fact */
+  --funfact: oklch(0.63 0.27 5);
+  --funfact-soft: oklch(0.92 0.09 5);
+  --funfact-ink: oklch(0.4 0.22 6);
 
-  --pion-1: oklch(0.68 0.15 250);
-  --pion-2: oklch(0.72 0.15 150);
-  --pion-3: oklch(0.75 0.14 40);
-  --pion-4: oklch(0.7 0.15 330);
+  /* Palet papan (kuat, seperti papan cetak) */
+  --board-red: #e01b24;
+  --board-navy: #1a2a8f;
+  --board-blue: #1f5fe0;
+  --board-yellow: #ffd400;
+  --board-magenta: #d61f8f;
+  --board-pink: #ff3d9a;
+  --board-orange: #ff6a13;
+  --board-green: #8ede2b;
 
-  --chart-1: oklch(0.68 0.13 245);
-  --chart-2: oklch(0.8 0.12 150);
-  --chart-3: oklch(0.75 0.11 305);
-  --chart-4: oklch(0.79 0.11 355);
-  --chart-5: oklch(0.8 0.12 80);
+  --pion-1: #e01b24;
+  --pion-2: #1f5fe0;
+  --pion-3: #ffd400;
+  --pion-4: #17c964;
+
+  --chart-1: oklch(0.5 0.22 264);
+  --chart-2: oklch(0.72 0.22 138);
+  --chart-3: oklch(0.58 0.26 320);
+  --chart-4: oklch(0.63 0.27 5);
+  --chart-5: oklch(0.78 0.19 85);
+
 
   --sidebar: oklch(0.985 0.008 250);
   --sidebar-foreground: oklch(0.28 0.035 268);
@@ -272,3 +293,126 @@
   animation: utaka-confetti 2.6s linear forwards;
   pointer-events: none;
 }
+
+/* ---------- DADU 3D ---------- */
+.dice3d-stage {
+  perspective: 700px;
+  width: 5.5rem;
+  height: 5.5rem;
+}
+
+.dice3d {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.9s cubic-bezier(0.25, 1, 0.4, 1);
+}
+
+.dice3d.is-rolling {
+  animation: dice-tumble 0.55s linear infinite;
+}
+
+.dice3d-face {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  padding: 12%;
+  border-radius: 14px;
+  background: linear-gradient(150deg, #ffffff, #e9edf7);
+  border: 2px solid rgba(26, 42, 143, 0.25);
+  box-shadow: inset 0 0 14px rgba(26, 42, 143, 0.18);
+  backface-visibility: visible;
+}
+
+.dice3d-pip {
+  width: 68%;
+  aspect-ratio: 1;
+  place-self: center;
+  border-radius: 999px;
+  background: radial-gradient(circle at 30% 30%, #ff6b6b, var(--board-red));
+  box-shadow: inset 0 -2px 3px rgba(0, 0, 0, 0.3);
+}
+
+.dice3d-f1 { transform: translateZ(2.75rem); }
+.dice3d-f2 { transform: rotateY(90deg) translateZ(2.75rem); }
+.dice3d-f3 { transform: rotateY(180deg) translateZ(2.75rem); }
+.dice3d-f4 { transform: rotateY(-90deg) translateZ(2.75rem); }
+.dice3d-f5 { transform: rotateX(90deg) translateZ(2.75rem); }
+.dice3d-f6 { transform: rotateX(-90deg) translateZ(2.75rem); }
+
+@keyframes dice-tumble {
+  0% { transform: rotateX(0deg) rotateY(0deg); }
+  100% { transform: rotateX(360deg) rotateY(720deg); }
+}
+
+/* ---------- BIDAK 3D ---------- */
+.pion3d {
+  position: relative;
+  display: inline-block;
+  width: var(--pion-size, 14px);
+  height: calc(var(--pion-size, 14px) * 1.45);
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.45));
+  transition: transform 0.25s ease;
+}
+
+.pion3d-head {
+  position: absolute;
+  top: 0;
+  left: 8%;
+  width: 84%;
+  aspect-ratio: 1;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.95), transparent 55%),
+    var(--pion-color);
+  border: 1px solid rgba(0, 0, 0, 0.25);
+}
+
+.pion3d-body {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 62%;
+  clip-path: polygon(28% 0, 72% 0, 100% 100%, 0 100%);
+  background:
+    linear-gradient(100deg, rgba(255, 255, 255, 0.5), transparent 45%),
+    var(--pion-color);
+  border-radius: 0 0 40% 40%;
+}
+
+.pion3d.is-active {
+  animation: pion-hop 0.9s ease-in-out infinite;
+}
+
+@keyframes pion-hop {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-4px) scale(1.08); }
+}
+
+/* ---------- KARAKTER HERO ---------- */
+@keyframes teen-bob {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(-1.5deg); }
+}
+@keyframes teen-wave {
+  0%, 100% { transform: rotate(-8deg); }
+  50% { transform: rotate(22deg); }
+}
+@keyframes heart-float {
+  0% { transform: translateY(0) scale(0.8); opacity: 0; }
+  20% { opacity: 1; }
+  100% { transform: translateY(-70px) scale(1.15); opacity: 0; }
+}
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.teen-bob { animation: teen-bob 3.4s ease-in-out infinite; transform-origin: center bottom; }
+.teen-wave { animation: teen-wave 1.6s ease-in-out infinite; transform-origin: 100% 0%; }
+.heart-float { animation: heart-float 3.6s ease-in linear infinite; }
+.spin-slow { animation: spin-slow 14s linear infinite; }

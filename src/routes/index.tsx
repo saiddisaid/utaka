@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { strategies } from "@/data/materi";
 import { allCards } from "@/data/cards";
+import { TeenHero } from "@/components/TeenHero";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -85,32 +86,7 @@ function Home() {
             </p>
           </div>
 
-          <div className="animate-float mx-auto w-full max-w-sm">
-            <div className="card-soft p-6">
-              <div className="grid grid-cols-5 gap-2">
-                {Array.from({ length: 25 }, (_, i) => {
-                  const tone =
-                    i % 7 === 0
-                      ? "bg-tangga-soft"
-                      : i % 5 === 0
-                        ? "bg-ular-soft"
-                        : i % 3 === 0
-                          ? "bg-funfact-soft"
-                          : "bg-secondary";
-                  return <div key={i} className={`aspect-square rounded-lg ${tone}`} />;
-                })}
-              </div>
-              <div className="mt-5 flex items-center justify-between gap-3 rounded-2xl bg-cream p-4">
-                <div>
-                  <p className="font-display text-sm font-bold">Giliran kamu!</p>
-                  <p className="text-xs text-muted-foreground">Lempar dadu & buka kartu</p>
-                </div>
-                <span className="grid h-12 w-12 place-items-center rounded-2xl bg-card text-2xl shadow-soft">
-                  🎲
-                </span>
-              </div>
-            </div>
-          </div>
+          <TeenHero />
         </div>
       </section>
 
