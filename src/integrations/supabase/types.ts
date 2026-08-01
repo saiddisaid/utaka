@@ -215,6 +215,8 @@ export type Database = {
           finished_at: string | null
           host_player_id: string | null
           id: string
+          last_move: Json | null
+          move_seq: number
           pending_card_id: string | null
           pending_card_player_id: string | null
           started_at: string | null
@@ -231,6 +233,8 @@ export type Database = {
           finished_at?: string | null
           host_player_id?: string | null
           id?: string
+          last_move?: Json | null
+          move_seq?: number
           pending_card_id?: string | null
           pending_card_player_id?: string | null
           started_at?: string | null
@@ -247,6 +251,8 @@ export type Database = {
           finished_at?: string | null
           host_player_id?: string | null
           id?: string
+          last_move?: Json | null
+          move_seq?: number
           pending_card_id?: string | null
           pending_card_player_id?: string | null
           started_at?: string | null
