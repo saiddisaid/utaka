@@ -293,3 +293,126 @@
   animation: utaka-confetti 2.6s linear forwards;
   pointer-events: none;
 }
+
+/* ---------- DADU 3D ---------- */
+.dice3d-stage {
+  perspective: 700px;
+  width: 5.5rem;
+  height: 5.5rem;
+}
+
+.dice3d {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.9s cubic-bezier(0.25, 1, 0.4, 1);
+}
+
+.dice3d.is-rolling {
+  animation: dice-tumble 0.55s linear infinite;
+}
+
+.dice3d-face {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  padding: 12%;
+  border-radius: 14px;
+  background: linear-gradient(150deg, #ffffff, #e9edf7);
+  border: 2px solid rgba(26, 42, 143, 0.25);
+  box-shadow: inset 0 0 14px rgba(26, 42, 143, 0.18);
+  backface-visibility: visible;
+}
+
+.dice3d-pip {
+  width: 72%;
+  height: 72%;
+  place-self: center;
+  border-radius: 999px;
+  background: radial-gradient(circle at 30% 30%, #ff6b6b, var(--board-red));
+  box-shadow: inset 0 -2px 3px rgba(0, 0, 0, 0.3);
+}
+
+.dice3d-f1 { transform: translateZ(2.75rem); }
+.dice3d-f2 { transform: rotateY(90deg) translateZ(2.75rem); }
+.dice3d-f3 { transform: rotateY(180deg) translateZ(2.75rem); }
+.dice3d-f4 { transform: rotateY(-90deg) translateZ(2.75rem); }
+.dice3d-f5 { transform: rotateX(90deg) translateZ(2.75rem); }
+.dice3d-f6 { transform: rotateX(-90deg) translateZ(2.75rem); }
+
+@keyframes dice-tumble {
+  0% { transform: rotateX(0deg) rotateY(0deg); }
+  100% { transform: rotateX(360deg) rotateY(720deg); }
+}
+
+/* ---------- BIDAK 3D ---------- */
+.pion3d {
+  position: relative;
+  display: inline-block;
+  width: var(--pion-size, 14px);
+  height: calc(var(--pion-size, 14px) * 1.45);
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.45));
+  transition: transform 0.25s ease;
+}
+
+.pion3d-head {
+  position: absolute;
+  top: 0;
+  left: 8%;
+  width: 84%;
+  aspect-ratio: 1;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.95), transparent 55%),
+    var(--pion-color);
+  border: 1px solid rgba(0, 0, 0, 0.25);
+}
+
+.pion3d-body {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 62%;
+  clip-path: polygon(28% 0, 72% 0, 100% 100%, 0 100%);
+  background:
+    linear-gradient(100deg, rgba(255, 255, 255, 0.5), transparent 45%),
+    var(--pion-color);
+  border-radius: 0 0 40% 40%;
+}
+
+.pion3d.is-active {
+  animation: pion-hop 0.9s ease-in-out infinite;
+}
+
+@keyframes pion-hop {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-4px) scale(1.08); }
+}
+
+/* ---------- KARAKTER HERO ---------- */
+@keyframes teen-bob {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(-1.5deg); }
+}
+@keyframes teen-wave {
+  0%, 100% { transform: rotate(-8deg); }
+  50% { transform: rotate(22deg); }
+}
+@keyframes heart-float {
+  0% { transform: translateY(0) scale(0.8); opacity: 0; }
+  20% { opacity: 1; }
+  100% { transform: translateY(-70px) scale(1.15); opacity: 0; }
+}
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.teen-bob { animation: teen-bob 3.4s ease-in-out infinite; transform-origin: center bottom; }
+.teen-wave { animation: teen-wave 1.6s ease-in-out infinite; transform-origin: 100% 0%; }
+.heart-float { animation: heart-float 3.6s ease-in linear infinite; }
+.spin-slow { animation: spin-slow 14s linear infinite; }
