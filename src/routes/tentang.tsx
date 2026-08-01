@@ -63,7 +63,7 @@ function Tentang() {
         <p className="mt-4 text-sm text-muted-foreground">
           UTAKA dikembangkan sebagai media bimbingan kelompok untuk remaja usia 15–19 tahun yang
           pernah mengalami cinta tak berbalas, penolakan, atau kegagalan dalam mendekati seseorang.
-          Materinya berpijak pada enam strategi regulasi emosi (Y1–Y6) yang dijadikan dasar
+          Materinya berpijak pada enam strategi regulasi emosi yang dijadikan dasar
           seluruh kartu permainan.
         </p>
         <p className="mt-3 text-sm text-muted-foreground">
