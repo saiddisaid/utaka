@@ -448,3 +448,35 @@
   text-transform: uppercase;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35);
 }
+
+/* ---- Karakter pembaca kartu ---- */
+.narrator { filter: drop-shadow(0 6px 12px rgba(0,0,0,.25)); }
+.narrator .narrator-head { transform-origin: 60px 80px; }
+.narrator-senang .narrator-head { animation: narrator-bounce 1.1s ease-in-out infinite; }
+.narrator-penasaran .narrator-head { animation: narrator-tilt 2.2s ease-in-out infinite; }
+.narrator-murung .narrator-head { animation: narrator-slump 2.6s ease-in-out infinite; }
+.narrator .narrator-mouth { opacity: 0; transform-origin: 60px 72px; }
+.narrator.is-speaking .narrator-mouth { opacity: 1; animation: narrator-talk .28s ease-in-out infinite; }
+.narrator-tear { opacity: 0; animation: narrator-tear 3s ease-in-out infinite; }
+
+@keyframes narrator-bounce {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50% { transform: translateY(-5px) rotate(2deg); }
+}
+@keyframes narrator-tilt {
+  0%, 100% { transform: rotate(-5deg); }
+  50% { transform: rotate(5deg); }
+}
+@keyframes narrator-slump {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(4px) rotate(-6deg); }
+}
+@keyframes narrator-talk {
+  0%, 100% { transform: scaleY(.35); }
+  50% { transform: scaleY(1.15); }
+}
+@keyframes narrator-tear {
+  0%, 60% { opacity: 0; transform: translateY(0); }
+  70% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(18px); }
+}
