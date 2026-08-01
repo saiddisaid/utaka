@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import { Volume2, VolumeX, Loader2 } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { Volume2, Loader2 } from "lucide-react";
 import type { EduCard } from "@/data/cards";
 import { typeStyles } from "./EduCardTile";
-import { narrate, stopNarration } from "@/lib/narrate";
+import { narrate, stopNarration, type NarratorVoice } from "@/lib/narrate";
 import { duckMusic, isMuted } from "@/lib/sfx";
 
 type Mood = "senang" | "murung" | "penasaran";
