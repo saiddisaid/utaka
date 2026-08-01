@@ -244,6 +244,7 @@ function BermainPage() {
 
   function finishTurn(pos: number, playerId: number) {
     if (pos >= BOARD_SIZE) {
+      sfxWin();
       setPlayers((ps) => {
         const w = ps.find((p) => p.id === playerId) ?? null;
         setWinner(w);
