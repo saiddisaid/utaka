@@ -335,3 +335,75 @@ export async function linkAccount(token: string, userId: string) {
   await supabaseAdmin.from("room_players").update({ user_id: userId }).eq("id", tok.player_id);
   return { ok: true };
 }
+
+/**
+ * Membaca seluruh state room dari sisi server.
+ * Data sensitif (chat, refleksi, riwayat) hanya dikirim bila token pemain valid
+ * untuk room tersebut.
+ */
+export async function getRoomState(code: string, token: string | null) {
+  const clean = code.trim().toUpperCase();
+  const { data: room } = await supabaseAdmin
+    .from("rooms")
+    .select("*")
+    .eq("code", clean)
+    .maybeSingle();
+  if (!room) return { notFound: true as const };
+
+  let isMember = false;
+  if (token) {
+    const { data: tok } = await supabaseAdmin
+      .from("room_player_tokens")
+      .select("player_id, room_id")
+      .eq("token", token)
+      .maybeSingle();
+    isMember = !!tok && tok.room_id === room.id;
+  }
+
+  const { data: players } = await supabaseAdmin
+    .from("room_players")
+    .select("id, room_id, name, seat, pos, cards, last_seen, created_at")
+    .eq("room_id", room.id)
+    .order("seat");
+
+  if (!isMember) {
+    return {
+      notFound: false as const,
+      isMember,
+      room,
+      players: players ?? [],
+      events: [],
+      messages: [],
+      reflections: [],
+    };
+  }
+
+  const [{ data: events }, { data: messages }, { data: reflections }] = await Promise.all([
+    supabaseAdmin
+      .from("room_events")
+      .select("id, text, created_at")
+      .eq("room_id", room.id)
+      .order("id", { ascending: false })
+      .limit(40),
+    supabaseAdmin
+      .from("room_messages")
+      .select("id, name, body, created_at")
+      .eq("room_id", room.id)
+      .order("id", { ascending: false })
+      .limit(50),
+    supabaseAdmin
+      .from("room_reflections")
+      .select("id, name, answers")
+      .eq("room_id", room.id),
+  ]);
+
+  return {
+    notFound: false as const,
+    isMember,
+    room,
+    players: players ?? [],
+    events: events ?? [],
+    messages: messages ?? [],
+    reflections: reflections ?? [],
+  };
+}
