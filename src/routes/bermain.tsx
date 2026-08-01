@@ -14,6 +14,17 @@ import {
   snakeOrder,
   snakes,
 } from "@/lib/board";
+import {
+  setMuted,
+  sfxDiceRoll,
+  sfxForCard,
+  sfxLadder,
+  sfxSnake,
+  sfxStep,
+  sfxWin,
+  unlockAudio,
+} from "@/lib/sfx";
+
 import { funFactCards, tanggaCards, ularCards, type EduCard } from "@/data/cards";
 
 export const Route = createFileRoute("/bermain")({
