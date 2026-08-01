@@ -3,6 +3,7 @@ import {
   cellCenter,
   cellColor,
   cellInk,
+  funFactInk,
   ladders,
   snakes,
   squareKind,
@@ -18,14 +19,28 @@ function Ladder({ from, to }: { from: number; to: number }) {
   const dx = b.x - a.x;
   const dy = b.y - a.y;
   const len = Math.hypot(dx, dy);
-  const nx = (-dy / len) * 2.6;
-  const ny = (dx / len) * 2.6;
-  const rungs = Math.max(3, Math.round(len / 6));
+  const nx = (-dy / len) * 2.4;
+  const ny = (dx / len) * 2.4;
+  const rungs = Math.max(3, Math.round(len / 5));
 
   return (
-    <g stroke="#7ac70c" strokeWidth="1.5" strokeLinecap="round">
-      <line x1={a.x + nx} y1={a.y + ny} x2={b.x + nx} y2={b.y + ny} stroke="#a4e34a" />
-      <line x1={a.x - nx} y1={a.y - ny} x2={b.x - nx} y2={b.y - ny} stroke="#a4e34a" />
+    <g strokeLinecap="round">
+      <line
+        x1={a.x + nx}
+        y1={a.y + ny}
+        x2={b.x + nx}
+        y2={b.y + ny}
+        stroke="#8bc34a"
+        strokeWidth="1.8"
+      />
+      <line
+        x1={a.x - nx}
+        y1={a.y - ny}
+        x2={b.x - nx}
+        y2={b.y - ny}
+        stroke="#8bc34a"
+        strokeWidth="1.8"
+      />
       {Array.from({ length: rungs }, (_, i) => {
         const t = (i + 0.5) / rungs;
         const px = a.x + dx * t;
@@ -37,7 +52,8 @@ function Ladder({ from, to }: { from: number; to: number }) {
             y1={py + ny}
             x2={px - nx}
             y2={py - ny}
-            strokeWidth="1.1"
+            stroke="#c5e88a"
+            strokeWidth="1.2"
           />
         );
       })}
@@ -45,39 +61,34 @@ function Ladder({ from, to }: { from: number; to: number }) {
   );
 }
 
-function Snake({ from, to, hue }: { from: number; to: number; hue: string }) {
+function Snake({ from, to }: { from: number; to: number }) {
   const a = cellCenter(from); // kepala
   const b = cellCenter(to); // ekor
   const mx = (a.x + b.x) / 2;
   const my = (a.y + b.y) / 2;
-  const off = 16;
+  const off = 14;
   const d = `M ${a.x} ${a.y} C ${mx + off} ${a.y + (my - a.y) / 2}, ${mx - off} ${
     b.y - (b.y - my) / 2
   }, ${b.x} ${b.y}`;
   return (
     <g>
-      <path d={d} fill="none" stroke="rgba(0,0,0,0.18)" strokeWidth="5.4" strokeLinecap="round" />
-      <path d={d} fill="none" stroke={hue} strokeWidth="4.4" strokeLinecap="round" />
+      <path d={d} fill="none" stroke="#7e57c2" strokeWidth="4.4" strokeLinecap="round" />
+      <path d={d} fill="none" stroke="#cbb2f0" strokeWidth="3.2" strokeLinecap="round" />
       <path
         d={d}
         fill="none"
-        stroke="rgba(255,255,255,0.55)"
-        strokeWidth="1.2"
-        strokeDasharray="1.6 3"
+        stroke="#8a63c9"
+        strokeWidth="1.1"
+        strokeDasharray="1.2 2.6"
         strokeLinecap="round"
       />
-      <circle cx={a.x} cy={a.y} r="3.4" fill={hue} stroke="rgba(0,0,0,0.25)" strokeWidth="0.5" />
-      <circle cx={a.x - 1.2} cy={a.y - 0.9} r="0.7" fill="#111" />
-      <circle cx={a.x + 1.2} cy={a.y - 0.9} r="0.7" fill="#111" />
-      <path
-        d={`M ${a.x} ${a.y + 1.6} l -1.6 2.2 l 1.6 -0.8 l 1.6 0.8 z`}
-        fill="#e01b24"
-      />
+      <circle cx={a.x} cy={a.y} r="2.4" fill="#cbb2f0" stroke="#7e57c2" strokeWidth="0.7" />
+      <circle cx={a.x - 0.9} cy={a.y - 0.7} r="0.5" fill="#1a1a1a" />
+      <circle cx={a.x + 0.9} cy={a.y - 0.7} r="0.5" fill="#1a1a1a" />
+      <path d={`M ${a.x} ${a.y + 2.2} l 0 2.4 l -1.2 1`} stroke="#e01b24" strokeWidth="0.6" fill="none" />
     </g>
   );
 }
-
-const snakeHues = ["#c05cf0", "#ff4fa3", "#9b5de5", "#ff6a13", "#7b3fe4", "#e836a8"];
 
 export function GameBoard({
   players,
@@ -89,7 +100,7 @@ export function GameBoard({
   const cells = boardCells();
 
   return (
-    <div className="rounded-3xl border-4 border-board-navy bg-board-navy p-1.5 shadow-lift sm:p-2">
+    <div className="rounded-2xl border-4 border-white bg-white p-1 shadow-lift">
       <div className="relative">
         <div className="grid grid-cols-10 gap-[2px]">
           {cells.map((n) => {
@@ -101,26 +112,31 @@ export function GameBoard({
               <div
                 key={n}
                 className={`relative aspect-square overflow-hidden ${
-                  activeSquare === n ? "ring-2 ring-board-yellow ring-offset-0" : ""
+                  activeSquare === n ? "outline outline-2 outline-white" : ""
                 }`}
                 style={{ backgroundColor: bg, color: ink }}
               >
                 {kind === "start" ? (
-                  <span className="absolute inset-0 grid place-items-center text-center text-[7px] font-black italic leading-tight sm:text-[10px]">
-                    ⭐<br />
+                  <span className="board-num absolute inset-0 grid place-items-center text-center text-[8px] leading-tight sm:text-[11px]">
+                    ♡
+                    <br />
                     START
                   </span>
                 ) : kind === "finish" ? (
-                  <span className="absolute inset-0 grid place-items-center text-center text-[7px] font-black italic leading-tight sm:text-[10px]">
-                    👑<br />
+                  <span className="board-num absolute inset-0 grid place-items-center text-center text-[8px] leading-tight sm:text-[11px]">
+                    ♛
+                    <br />
                     FINISH
                   </span>
                 ) : kind === "funfact" ? (
-                  <span className="absolute inset-0 grid place-items-center px-[1px] text-center text-[6px] font-black italic leading-none tracking-tight sm:text-[9px]">
+                  <span
+                    className="board-funfact absolute inset-0 grid place-items-center px-[1px] text-center text-[6.5px] leading-none sm:text-[10px]"
+                    style={{ color: funFactInk(n) }}
+                  >
                     FUNFACT
                   </span>
                 ) : (
-                  <span className="absolute inset-0 grid place-items-center text-[9px] font-black italic sm:text-sm">
+                  <span className="board-num absolute inset-0 grid place-items-center text-[10px] sm:text-base">
                     {n}
                   </span>
                 )}
@@ -132,13 +148,12 @@ export function GameBoard({
                         key={p.id}
                         title={p.name}
                         color={playerColors[p.id]!}
-                        size={here.length > 2 ? 14 : 22}
+                        size={here.length > 2 ? 16 : 26}
                         active={activeSquare === n}
                       />
                     ))}
                   </span>
                 )}
-
               </div>
             );
           })}
@@ -152,17 +167,17 @@ export function GameBoard({
           {Object.entries(ladders).map(([from, to]) => (
             <Ladder key={`l${from}`} from={Number(from)} to={to} />
           ))}
-          {Object.entries(snakes).map(([from, to], i) => (
-            <Snake key={`s${from}`} from={Number(from)} to={to} hue={snakeHues[i % 6]!} />
+          {Object.entries(snakes).map(([from, to]) => (
+            <Snake key={`s${from}`} from={Number(from)} to={to} />
           ))}
         </svg>
       </div>
 
-      <div className="mt-2 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 rounded-2xl bg-card px-3 py-2 text-[11px] font-extrabold text-foreground">
-        <span className="text-tangga-ink">🪜 Tangga (naik)</span>
-        <span className="text-ular-ink">🐍 Ular (turun)</span>
-        <span className="text-funfact-ink">💡 FUNFACT</span>
-        <span className="text-primary">👑 Finish di 100</span>
+      <div className="mt-1 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 rounded-xl bg-card px-3 py-2 text-[11px] font-extrabold text-foreground">
+        <span className="text-tangga-ink">Tangga (naik)</span>
+        <span className="text-ular-ink">Ular (turun)</span>
+        <span className="text-funfact-ink">FUNFACT</span>
+        <span className="text-primary">Finish di petak 100</span>
       </div>
     </div>
   );

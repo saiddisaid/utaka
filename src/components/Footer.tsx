@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import logo from "@/assets/utaka-logo.png.asset.json";
+import logo from "@/assets/utaka-logo-2026.png";
 
 export function Footer() {
   return (
@@ -8,7 +8,7 @@ export function Footer() {
         <div>
           <div className="flex items-center gap-2.5">
             <img
-              src={logo.url}
+              src={logo}
               alt="Logo UTAKA"
               width={44}
               height={44}

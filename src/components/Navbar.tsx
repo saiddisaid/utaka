@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
-import logo from "@/assets/utaka-logo.png.asset.json";
+import logo from "@/assets/utaka-logo-2026.png";
 
 
 const links = [
@@ -21,7 +21,7 @@ export function Navbar() {
       <div className="mx-auto grid max-w-6xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-4 py-3 md:flex md:justify-between">
         <Link to="/" className="flex min-w-0 items-center gap-2.5" onClick={() => setOpen(false)}>
           <img
-            src={logo.url}
+            src={logo}
             alt="Logo UTAKA"
             width={40}
             height={40}

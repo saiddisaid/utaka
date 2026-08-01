@@ -14,6 +14,17 @@ import {
   snakeOrder,
   snakes,
 } from "@/lib/board";
+import {
+  setMuted,
+  sfxDiceRoll,
+  sfxForCard,
+  sfxLadder,
+  sfxSnake,
+  sfxStep,
+  sfxWin,
+  unlockAudio,
+} from "@/lib/sfx";
+
 import { funFactCards, tanggaCards, ularCards, type EduCard } from "@/data/cards";
 
 export const Route = createFileRoute("/bermain")({
@@ -39,6 +50,20 @@ type Phase = "setup" | "playing" | "finished";
 
 type LogItem = { id: number; text: string };
 
+const SAVE_KEY = "utaka-game-progress-v1";
+
+type SavedGame = {
+  phase: Phase;
+  count: number;
+  names: string[];
+  players: Player[];
+  turn: number;
+  log: LogItem[];
+  totalRolls: number;
+  startedAt: number;
+  elapsed: number;
+};
+
 function BermainPage() {
   const [phase, setPhase] = useState<Phase>("setup");
   const [count, setCount] = useState(2);
@@ -54,7 +79,65 @@ function BermainPage() {
   const [startedAt, setStartedAt] = useState(0);
   const [elapsed, setElapsed] = useState(0);
   const [totalRolls, setTotalRolls] = useState(0);
+  const [soundOn, setSoundOn] = useState(true);
+  const [restored, setRestored] = useState(false);
   const logId = useRef(0);
+  const loaded = useRef(false);
+
+  /* ---- Muat progres tersimpan ---- */
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(SAVE_KEY);
+      if (raw) {
+        const s = JSON.parse(raw) as SavedGame;
+        if (s.players?.length && s.phase === "playing") {
+          setPhase("playing");
+          setCount(s.count);
+          setNames(s.names);
+          setPlayers(s.players);
+          setTurn(s.turn);
+          setLog(s.log ?? []);
+          setTotalRolls(s.totalRolls ?? 0);
+          setElapsed(s.elapsed ?? 0);
+          setStartedAt(Date.now() - (s.elapsed ?? 0));
+          logId.current = (s.log?.[0]?.id ?? 0) + 1;
+          setRestored(true);
+        }
+      }
+    } catch {
+      /* abaikan progres rusak */
+    }
+    loaded.current = true;
+  }, []);
+
+  /* ---- Simpan progres otomatis ---- */
+  useEffect(() => {
+    if (!loaded.current) return;
+    if (phase === "playing" && players.length > 0) {
+      const data: SavedGame = {
+        phase,
+        count,
+        names,
+        players,
+        turn,
+        log,
+        totalRolls,
+        startedAt,
+        elapsed,
+      };
+      try {
+        localStorage.setItem(SAVE_KEY, JSON.stringify(data));
+      } catch {
+        /* penyimpanan penuh */
+      }
+    } else if (phase !== "playing") {
+      localStorage.removeItem(SAVE_KEY);
+    }
+  }, [phase, count, names, players, turn, log, totalRolls, startedAt, elapsed]);
+
+  useEffect(() => {
+    setMuted(!soundOn);
+  }, [soundOn]);
 
   useEffect(() => {
     if (phase !== "playing") return;
@@ -67,7 +150,9 @@ function BermainPage() {
     setLog((l) => [{ id: logId.current, text }, ...l].slice(0, 30));
   }, []);
 
+
   function start() {
+    unlockAudio();
     const list: Player[] = Array.from({ length: count }, (_, i) => ({
       id: i,
       name: names[i]?.trim() || `Pemain ${i + 1}`,
@@ -80,6 +165,7 @@ function BermainPage() {
     setWinner(null);
     setTotalRolls(0);
     setElapsed(0);
+    setRestored(false);
     setStartedAt(Date.now());
     setPhase("playing");
     addLog(`Permainan dimulai! Giliran pertama: ${list[0]!.name}.`);
@@ -89,8 +175,10 @@ function BermainPage() {
 
   async function roll() {
     if (busy || phase !== "playing") return;
+    unlockAudio();
     setBusy(true);
     setRolling(true);
+    sfxDiceRoll();
     const value = 1 + Math.floor(Math.random() * 6);
     for (let i = 0; i < 6; i++) {
       setDice(1 + Math.floor(Math.random() * 6));
@@ -109,6 +197,7 @@ function BermainPage() {
       pos += 1;
       const step = pos;
       setPlayers((ps) => ps.map((p) => (p.id === current.id ? { ...p, pos: step } : p)));
+      sfxStep();
       await sleep(180);
     }
 
@@ -119,6 +208,7 @@ function BermainPage() {
       drawn = tanggaCards[idx % tanggaCards.length]!;
       const to = ladders[pos]!;
       await sleep(300);
+      sfxLadder();
       setPlayers((ps) => ps.map((p) => (p.id === current.id ? { ...p, pos: to } : p)));
       addLog(`🪜 ${current.name} naik tangga dari ${pos} ke ${to}.`);
       pos = to;
@@ -127,6 +217,7 @@ function BermainPage() {
       drawn = ularCards[idx % ularCards.length]!;
       const to = snakes[pos]!;
       await sleep(300);
+      sfxSnake();
       setPlayers((ps) => ps.map((p) => (p.id === current.id ? { ...p, pos: to } : p)));
       addLog(`🐍 ${current.name} turun ular dari ${pos} ke ${to}.`);
       pos = to;
@@ -137,9 +228,12 @@ function BermainPage() {
     }
 
     if (drawn) {
+      const type = drawn.type;
       setPlayers((ps) =>
         ps.map((p) => (p.id === current.id ? { ...p, cards: p.cards + 1 } : p)),
       );
+      await sleep(320);
+      sfxForCard(type);
       setCard(drawn);
       return; // giliran lanjut setelah popup ditutup
     }
@@ -147,8 +241,10 @@ function BermainPage() {
     finishTurn(pos, current.id);
   }
 
+
   function finishTurn(pos: number, playerId: number) {
     if (pos >= BOARD_SIZE) {
+      sfxWin();
       setPlayers((ps) => {
         const w = ps.find((p) => p.id === playerId) ?? null;
         setWinner(w);
@@ -325,12 +421,32 @@ function BermainPage() {
   const current = players[turn]!;
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
+      {restored && (
+        <div className="mb-4 flex flex-wrap items-center gap-3 rounded-2xl bg-tangga-soft px-4 py-3 text-sm font-semibold text-tangga-ink">
+          <span>💾 Progres permainanmu sebelumnya berhasil dilanjutkan.</span>
+          <button
+            type="button"
+            onClick={() => setRestored(false)}
+            className="ml-auto rounded-full bg-card px-3 py-1 text-xs font-bold"
+          >
+            Tutup
+          </button>
+        </div>
+      )}
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
         <div className="min-w-0">
           <GameBoard players={players} activeSquare={current.pos} />
         </div>
 
         <aside className="space-y-4">
+          <button
+            type="button"
+            onClick={() => setSoundOn((v) => !v)}
+            className="w-full rounded-2xl border-2 border-border px-5 py-3 text-sm font-bold"
+          >
+            {soundOn ? "🔊 Suara Aktif" : "🔇 Suara Mati"}
+          </button>
+
           <div className="card-soft p-5">
             <div className="flex min-w-0 items-center gap-3">
               <Pion color={playerColors[current.id]!} size={30} active />
