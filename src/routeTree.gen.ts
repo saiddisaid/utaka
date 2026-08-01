@@ -10,17 +10,25 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as BelajarRouteImport } from './routes/belajar'
 import { Route as BermainRouteImport } from './routes/bermain'
 import { Route as CaraBermainRouteImport } from './routes/cara-bermain'
 import { Route as KartuRouteImport } from './routes/kartu'
+import { Route as OnlineRouteImport } from './routes/online'
 import { Route as RefleksiRouteImport } from './routes/refleksi'
 import { Route as TentangRouteImport } from './routes/tentang'
 import { Route as ApiTtsRouteImport } from './routes/api/tts'
+import { Route as MainKodeRouteImport } from './routes/main.$kode'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BelajarRoute = BelajarRouteImport.update({
@@ -43,6 +51,11 @@ const KartuRoute = KartuRouteImport.update({
   path: '/kartu',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OnlineRoute = OnlineRouteImport.update({
+  id: '/online',
+  path: '/online',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RefleksiRoute = RefleksiRouteImport.update({
   id: '/refleksi',
   path: '/refleksi',
@@ -58,80 +71,106 @@ const ApiTtsRoute = ApiTtsRouteImport.update({
   path: '/api/tts',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MainKodeRoute = MainKodeRouteImport.update({
+  id: '/main/$kode',
+  path: '/main/$kode',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/belajar': typeof BelajarRoute
   '/bermain': typeof BermainRoute
   '/cara-bermain': typeof CaraBermainRoute
   '/kartu': typeof KartuRoute
+  '/online': typeof OnlineRoute
   '/refleksi': typeof RefleksiRoute
   '/tentang': typeof TentangRoute
   '/api/tts': typeof ApiTtsRoute
+  '/main/$kode': typeof MainKodeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/belajar': typeof BelajarRoute
   '/bermain': typeof BermainRoute
   '/cara-bermain': typeof CaraBermainRoute
   '/kartu': typeof KartuRoute
+  '/online': typeof OnlineRoute
   '/refleksi': typeof RefleksiRoute
   '/tentang': typeof TentangRoute
   '/api/tts': typeof ApiTtsRoute
+  '/main/$kode': typeof MainKodeRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/belajar': typeof BelajarRoute
   '/bermain': typeof BermainRoute
   '/cara-bermain': typeof CaraBermainRoute
   '/kartu': typeof KartuRoute
+  '/online': typeof OnlineRoute
   '/refleksi': typeof RefleksiRoute
   '/tentang': typeof TentangRoute
   '/api/tts': typeof ApiTtsRoute
+  '/main/$kode': typeof MainKodeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/auth'
     | '/belajar'
     | '/bermain'
     | '/cara-bermain'
     | '/kartu'
+    | '/online'
     | '/refleksi'
     | '/tentang'
     | '/api/tts'
+    | '/main/$kode'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/auth'
     | '/belajar'
     | '/bermain'
     | '/cara-bermain'
     | '/kartu'
+    | '/online'
     | '/refleksi'
     | '/tentang'
     | '/api/tts'
+    | '/main/$kode'
   id:
     | '__root__'
     | '/'
+    | '/auth'
     | '/belajar'
     | '/bermain'
     | '/cara-bermain'
     | '/kartu'
+    | '/online'
     | '/refleksi'
     | '/tentang'
     | '/api/tts'
+    | '/main/$kode'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthRoute: typeof AuthRoute
   BelajarRoute: typeof BelajarRoute
   BermainRoute: typeof BermainRoute
   CaraBermainRoute: typeof CaraBermainRoute
   KartuRoute: typeof KartuRoute
+  OnlineRoute: typeof OnlineRoute
   RefleksiRoute: typeof RefleksiRoute
   TentangRoute: typeof TentangRoute
   ApiTtsRoute: typeof ApiTtsRoute
+  MainKodeRoute: typeof MainKodeRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -141,6 +180,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/belajar': {
@@ -171,6 +217,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof KartuRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/online': {
+      id: '/online'
+      path: '/online'
+      fullPath: '/online'
+      preLoaderRoute: typeof OnlineRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/refleksi': {
       id: '/refleksi'
       path: '/refleksi'
@@ -192,18 +245,28 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiTtsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/main/$kode': {
+      id: '/main/$kode'
+      path: '/main/$kode'
+      fullPath: '/main/$kode'
+      preLoaderRoute: typeof MainKodeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthRoute: AuthRoute,
   BelajarRoute: BelajarRoute,
   BermainRoute: BermainRoute,
   CaraBermainRoute: CaraBermainRoute,
   KartuRoute: KartuRoute,
+  OnlineRoute: OnlineRoute,
   RefleksiRoute: RefleksiRoute,
   TentangRoute: TentangRoute,
   ApiTtsRoute: ApiTtsRoute,
+  MainKodeRoute: MainKodeRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -310,6 +310,19 @@ function BermainPage() {
           perangkat.
         </p>
 
+        <div className="mt-6 flex flex-wrap items-center gap-3 rounded-2xl border border-border bg-card p-4">
+          <div className="min-w-[220px] flex-1">
+            <p className="font-display text-sm font-bold">🌐 Ingin bermain beda perangkat?</p>
+            <p className="text-sm text-muted-foreground">
+              Buat room online dan undang temanmu — papan, dadu, dan kartu tersinkron real-time.
+            </p>
+          </div>
+          <Link to="/online" className="btn-primary">
+            Main Online
+          </Link>
+        </div>
+
+
         <div className="card-soft mt-8 p-6">
           <p className="font-display text-sm font-bold">Jumlah pemain</p>
           <div className="mt-3 flex flex-wrap gap-2">
