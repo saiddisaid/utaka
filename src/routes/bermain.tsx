@@ -26,6 +26,7 @@ import {
   stopMusic,
   unlockAudio,
 } from "@/lib/sfx";
+import type { NarratorVoice } from "@/lib/narrate";
 
 import { funFactCards, tanggaCards, ularCards, type EduCard } from "@/data/cards";
 
