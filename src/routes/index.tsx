@@ -17,7 +17,7 @@ export const Route = createFileRoute("/")({
       {
         property: "og:description",
         content:
-          "Main ular tangga kartu, baca kartu edukasi, dan refleksikan pengalamanmu tentang cinta tak berbalas.",
+          "Permainan edukatif UTAKA membantu remaja memahami dan melatih regulasi emosi saat menghadapi cinta tak berbalas. Learn, Play, Reflect, Improve.",
       },
     ],
   }),

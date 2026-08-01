@@ -84,10 +84,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "UTAKA (Ular Tangga Kartu): media psikoedukasi interaktif untuk remaja belajar regulasi emosi saat menghadapi cinta tak berbalas.",
+          "Permainan edukatif UTAKA membantu remaja memahami dan melatih regulasi emosi saat menghadapi cinta tak berbalas. Learn, Play, Reflect, Improve.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:title", content: "UTAKA — Belajar Regulasi Emosi Lewat Ular Tangga" },
+      { name: "twitter:title", content: "UTAKA — Belajar Regulasi Emosi Lewat Ular Tangga" },
+      { property: "og:description", content: "Permainan edukatif UTAKA membantu remaja memahami dan melatih regulasi emosi saat menghadapi cinta tak berbalas. Learn, Play, Reflect, Improve." },
+      { name: "twitter:description", content: "Permainan edukatif UTAKA membantu remaja memahami dan melatih regulasi emosi saat menghadapi cinta tak berbalas. Learn, Play, Reflect, Improve." },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/a16ec82f-8c4c-4e11-9e1e-bd2f503d2072" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/a16ec82f-8c4c-4e11-9e1e-bd2f503d2072" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
