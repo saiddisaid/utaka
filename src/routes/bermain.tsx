@@ -22,6 +22,8 @@ import {
   sfxSnake,
   sfxStep,
   sfxWin,
+  startMusic,
+  stopMusic,
   unlockAudio,
 } from "@/lib/sfx";
 
@@ -139,6 +141,13 @@ function BermainPage() {
     setMuted(!soundOn);
   }, [soundOn]);
 
+  /* ---- Musik latar saat bermain ---- */
+  useEffect(() => {
+    if (phase === "playing" && soundOn) startMusic();
+    else stopMusic();
+    return () => stopMusic();
+  }, [phase, soundOn]);
+
   useEffect(() => {
     if (phase !== "playing") return;
     const t = setInterval(() => setElapsed(Date.now() - startedAt), 1000);
@@ -180,10 +189,11 @@ function BermainPage() {
     setRolling(true);
     sfxDiceRoll();
     const value = 1 + Math.floor(Math.random() * 6);
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < 12; i++) {
       setDice(1 + Math.floor(Math.random() * 6));
-      await sleep(70);
+      await sleep(120);
     }
+    await sleep(250);
     setDice(value);
     setRolling(false);
     setTotalRolls((n) => n + 1);
@@ -198,7 +208,7 @@ function BermainPage() {
       const step = pos;
       setPlayers((ps) => ps.map((p) => (p.id === current.id ? { ...p, pos: step } : p)));
       sfxStep();
-      await sleep(180);
+      await sleep(400);
     }
 
     let drawn: EduCard | null = null;
@@ -207,7 +217,7 @@ function BermainPage() {
       const idx = ladderOrder.indexOf(pos);
       drawn = tanggaCards[idx % tanggaCards.length]!;
       const to = ladders[pos]!;
-      await sleep(300);
+      await sleep(450);
       sfxLadder();
       setPlayers((ps) => ps.map((p) => (p.id === current.id ? { ...p, pos: to } : p)));
       addLog(`🪜 ${current.name} naik tangga dari ${pos} ke ${to}.`);
@@ -216,7 +226,7 @@ function BermainPage() {
       const idx = snakeOrder.indexOf(pos);
       drawn = ularCards[idx % ularCards.length]!;
       const to = snakes[pos]!;
-      await sleep(300);
+      await sleep(450);
       sfxSnake();
       setPlayers((ps) => ps.map((p) => (p.id === current.id ? { ...p, pos: to } : p)));
       addLog(`🐍 ${current.name} turun ular dari ${pos} ke ${to}.`);
@@ -232,7 +242,7 @@ function BermainPage() {
       setPlayers((ps) =>
         ps.map((p) => (p.id === current.id ? { ...p, cards: p.cards + 1 } : p)),
       );
-      await sleep(320);
+      await sleep(450);
       sfxForCard(type);
       setCard(drawn);
       return; // giliran lanjut setelah popup ditutup
@@ -519,7 +529,7 @@ function BermainPage() {
         </aside>
       </div>
 
-      {card && <CardPopup card={card} onClose={closeCard} />}
+      {card && <CardPopup card={card} onClose={closeCard} narrateOnOpen />}
     </div>
   );
 }
