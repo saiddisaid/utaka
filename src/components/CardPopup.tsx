@@ -103,16 +103,38 @@ export function CardPopup({
   onClose,
   ctaLabel = "Lanjut Bermain",
   narrateOnOpen = false,
+  voice = "hangat",
 }: {
   card: EduCard;
   onClose: () => void;
   ctaLabel?: string;
   narrateOnOpen?: boolean;
+  voice?: NarratorVoice;
 }) {
   const s = typeStyles[card.type];
   const mood = moodOf(card);
   const [speaking, setSpeaking] = useState(false);
   const [done, setDone] = useState(!narrateOnOpen);
+  const cancelledRef = useRef(false);
+
+  const text = `Kartu ${s.label}. ${card.title}. ${card.body} ${card.extra}`;
+
+  const play = useCallback(() => {
+    cancelledRef.current = false;
+    setSpeaking(true);
+    duckMusic(true);
+    void narrate(text, voice)
+      .catch((err) => {
+        if (cancelledRef.current || (err as Error)?.name === "AbortError") return;
+        console.error("Narasi kartu gagal:", err);
+      })
+      .finally(() => {
+        if (cancelledRef.current) return;
+        setSpeaking(false);
+        duckMusic(false);
+        setDone(true);
+      });
+  }, [text, voice]);
 
   useEffect(() => {
     if (!narrateOnOpen) return;
@@ -120,29 +142,35 @@ export function CardPopup({
       setDone(true);
       return;
     }
-    let cancelled = false;
-    const text = `Kartu ${s.label}. ${card.title}. ${card.body} ${card.extra}`;
     setDone(false);
-    setSpeaking(true);
-    duckMusic(true);
-    void narrate(text)
-      .catch((err) => {
-        if (cancelled || (err as Error)?.name === "AbortError") return;
-        console.error("Narasi kartu gagal:", err);
-      })
-      .finally(() => {
-        if (cancelled) return;
-        setSpeaking(false);
-        duckMusic(false);
-        setDone(true);
-      });
+    play();
     return () => {
-      cancelled = true;
+      cancelledRef.current = true;
       stopNarration();
       duckMusic(false);
     };
-  }, [card, narrateOnOpen, s.label]);
+  }, [narrateOnOpen, play]);
 
+  useEffect(
+    () => () => {
+      cancelledRef.current = true;
+      stopNarration();
+      duckMusic(false);
+    },
+    [],
+  );
+
+  const replay = () => {
+    if (speaking) {
+      cancelledRef.current = true;
+      stopNarration();
+      duckMusic(false);
+      setSpeaking(false);
+      setDone(true);
+      return;
+    }
+    play();
+  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-foreground/60 px-4 py-8 backdrop-blur-sm">
@@ -155,23 +183,25 @@ export function CardPopup({
           <span className={`rounded-full px-3 py-1 text-xs font-black uppercase ${s.chip}`}>
             Kartu {s.label}
           </span>
-          {narrateOnOpen && (
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-card/80 px-3 py-1 text-[11px] font-bold text-foreground/70">
-              {speaking ? (
-                <>
-                  <Volume2 className="h-3.5 w-3.5 animate-pulse" /> Sedang dibacakan…
-                </>
-              ) : done ? (
-                <>
-                  <VolumeX className="h-3.5 w-3.5" /> Selesai dibacakan
-                </>
-              ) : (
-                <>
-                  <Loader2 className="h-3.5 w-3.5 animate-spin" /> Menyiapkan suara…
-                </>
-              )}
-            </span>
-          )}
+          <button
+            type="button"
+            onClick={replay}
+            className="inline-flex items-center gap-1.5 rounded-full bg-card/80 px-3 py-1 text-[11px] font-bold text-foreground/70 transition-transform hover:scale-105"
+          >
+            {speaking ? (
+              <>
+                <Volume2 className="h-3.5 w-3.5 animate-pulse" /> Sedang dibacakan… (hentikan)
+              </>
+            ) : done ? (
+              <>
+                <Volume2 className="h-3.5 w-3.5" /> Dengarkan lagi
+              </>
+            ) : (
+              <>
+                <Loader2 className="h-3.5 w-3.5 animate-spin" /> Menyiapkan suara…
+              </>
+            )}
+          </button>
         </div>
 
         <div className="px-6 pb-2 pt-4 text-center">
@@ -192,12 +222,13 @@ export function CardPopup({
           <button
             type="button"
             onClick={onClose}
-            disabled={!done}
+            disabled={narrateOnOpen && !done}
             className="w-full rounded-2xl bg-primary px-5 py-3 font-display text-base font-extrabold text-primary-foreground transition-transform hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:scale-100"
           >
-            {done ? ctaLabel : "Dengarkan dulu kartunya…"}
+            {!narrateOnOpen || done ? ctaLabel : "Dengarkan dulu kartunya…"}
           </button>
         </div>
+
       </div>
     </div>
   );
