@@ -188,32 +188,54 @@ export function sfxSnake() {
   tone({ freq: 310, slideTo: 85, duration: 0.9, type: "sine", gain: 0.22, delay: 0.05 });
 }
 
-/** Kartu Fun Fact: bunyi "ting" penasaran. */
+/** Kartu Fun Fact: bunyi "ting" penasaran yang berkilau. */
 export function sfxFunFact() {
-  [880, 1174, 1568].forEach((f, i) =>
-    tone({ freq: f, duration: 0.3, type: "sine", gain: 0.3, delay: i * 0.12 }),
+  [880, 1174, 1568, 2093].forEach((f, i) =>
+    tone({ freq: f, duration: 0.34, type: "sine", gain: 0.34, delay: i * 0.1 }),
   );
-  tone({ freq: 1976, duration: 0.6, type: "sine", gain: 0.16, delay: 0.4 });
+  [2349, 2793].forEach((f, i) =>
+    tone({ freq: f, duration: 0.9, type: "triangle", gain: 0.14, delay: 0.45 + i * 0.12 }),
+  );
+  tone({ freq: 1568, slideTo: 2637, duration: 0.8, type: "sine", gain: 0.16, delay: 0.7 });
 }
 
-/** Popup kartu tangga: fanfare gembira & positif. */
+/** Popup kartu tangga: fanfare gembira, meriah & positif. */
 export function sfxCardTangga() {
-  [523, 659, 784, 1046, 1318].forEach((f, i) =>
-    tone({ freq: f, duration: 0.35, type: "triangle", gain: 0.34, delay: i * 0.1 }),
+  // fanfare naik
+  [523, 659, 784, 1046, 1318, 1568].forEach((f, i) =>
+    tone({ freq: f, duration: 0.4, type: "triangle", gain: 0.38, delay: i * 0.09 }),
   );
-  [1046, 1318, 1568].forEach((f, i) =>
-    tone({ freq: f, duration: 1.2, type: "sine", gain: 0.18, delay: 0.55 + i * 0.02 }),
+  // akord kemenangan yang bertahan lama
+  [1046, 1318, 1568, 2093].forEach((f, i) =>
+    tone({ freq: f, duration: 1.8, type: "sine", gain: 0.2, delay: 0.6 + i * 0.03 }),
+  );
+  // bass hentakan
+  [131, 165, 196].forEach((f, i) =>
+    tone({ freq: f, duration: 0.5, type: "sawtooth", gain: 0.2, delay: i * 0.18 }),
+  );
+  // kilau bintang
+  [1976, 2349, 2637].forEach((f, i) =>
+    tone({ freq: f, duration: 0.3, type: "sine", gain: 0.16, delay: 1.0 + i * 0.14 }),
+  );
+  noise(0.35, 0.16, 0.55);
+}
+
+/** Popup kartu ular: nada "yaaah" yang menyesal & dramatis. */
+export function sfxCardUlar() {
+  // "yaaah" turun dua tingkat
+  tone({ freq: 700, slideTo: 466, duration: 0.7, type: "triangle", gain: 0.36 });
+  tone({ freq: 466, slideTo: 311, duration: 0.9, type: "triangle", gain: 0.32, delay: 0.6 });
+  // wah-wah trombone
+  tone({ freq: 233, slideTo: 175, duration: 1.4, type: "sawtooth", gain: 0.2, delay: 0.2 });
+  // akord minor sedih yang bertahan
+  [392, 466, 587].forEach((f, i) =>
+    tone({ freq: f, duration: 1.6, type: "sine", gain: 0.16, delay: 1.3 + i * 0.05 }),
+  );
+  [349, 294, 247].forEach((f, i) =>
+    tone({ freq: f, duration: 1.0, type: "triangle", gain: 0.14, delay: 1.5 + i * 0.22 }),
   );
 }
 
-/** Popup kartu ular: nada "yaaah" yang menyesal. */
-export function sfxCardUlar() {
-  tone({ freq: 660, slideTo: 440, duration: 0.55, type: "triangle", gain: 0.32 });
-  tone({ freq: 440, slideTo: 300, duration: 0.8, type: "sine", gain: 0.28, delay: 0.45 });
-  [392, 349, 294].forEach((f, i) =>
-    tone({ freq: f, duration: 0.9, type: "sawtooth", gain: 0.14, delay: 0.9 + i * 0.18 }),
-  );
-}
 
 /** Menang permainan. */
 export function sfxWin() {
