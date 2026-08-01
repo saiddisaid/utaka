@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Volume2, VolumeX, Loader2 } from "lucide-react";
 import type { EduCard } from "@/data/cards";
 import { typeStyles } from "./EduCardTile";
@@ -13,45 +13,85 @@ function moodOf(card: EduCard): Mood {
   return "penasaran";
 }
 
-/** Karakter pembaca kartu — beranimasi sesuai mood kartu. */
+/** Karakter remaja pembaca kartu — gaya sama seperti karakter di hero page. */
 function NarratorCharacter({ mood, speaking }: { mood: Mood; speaking: boolean }) {
-  const skin = "#f5c8a0";
-  const hair = mood === "murung" ? "#3b2c55" : "#2f2350";
-  const shirt =
-    mood === "senang" ? "#22c55e" : mood === "murung" ? "#7e57c2" : "#f59e0b";
+  const skin = "#f2c19a";
+  const skinShade = "#dda87f";
+  const hair = mood === "murung" ? "#2b2350" : "#3a2b1c";
+  const hoodie =
+    mood === "senang" ? "#22c55e" : mood === "murung" ? "#7c5cf0" : "#f59e0b";
+  const hoodieDark =
+    mood === "senang" ? "#16a34a" : mood === "murung" ? "#6440d8" : "#d97706";
 
   return (
     <div className={`narrator narrator-${mood} ${speaking ? "is-speaking" : ""}`}>
-      <svg viewBox="0 0 120 120" className="h-24 w-24" role="img" aria-label={`Karakter ${mood}`}>
-        <ellipse cx="60" cy="112" rx="34" ry="6" fill="rgba(0,0,0,.25)" />
-        <path d="M28 112c0-20 14-30 32-30s32 10 32 30z" fill={shirt} />
+      <svg viewBox="0 0 140 150" className="h-32 w-32" role="img" aria-label={`Karakter remaja ${mood}`}>
+        <ellipse cx="70" cy="142" rx="40" ry="6" fill="rgba(0,0,0,.28)" />
+
+        {/* badan + hoodie */}
+        <path d="M32 142c0-26 12-40 24-45h28c12 5 24 19 24 45z" fill={hoodie} />
+        <path d="M56 97h28c-3 9-9 13-14 13s-11-4-14-13z" fill={hoodieDark} />
+        <path d="M70 110v32" stroke={hoodieDark} strokeWidth="3" strokeLinecap="round" />
+        {/* lengan */}
+        <path
+          className="narrator-arm"
+          d={mood === "senang" ? "M36 104q-14-10-16-26" : "M36 106q-12 10-12 26"}
+          stroke={hoodie}
+          strokeWidth="13"
+          strokeLinecap="round"
+          fill="none"
+        />
+        <path
+          d={mood === "senang" ? "M104 104q14-10 16-26" : "M104 106q12 10 12 26"}
+          stroke={hoodie}
+          strokeWidth="13"
+          strokeLinecap="round"
+          fill="none"
+        />
+        <circle cx={mood === "senang" ? 20 : 24} cy={mood === "senang" ? 76 : 132} r="7" fill={skin} />
+        <circle cx={mood === "senang" ? 120 : 116} cy={mood === "senang" ? 76 : 132} r="7" fill={skin} />
+
         <g className="narrator-head">
-          <circle cx="60" cy="52" r="30" fill={skin} />
-          <path d="M30 46c2-20 16-30 30-30s28 10 30 30c-8-8-18-12-30-12s-22 4-30 12z" fill={hair} />
+          {/* leher */}
+          <rect x="62" y="86" width="16" height="14" rx="7" fill={skinShade} />
+          {/* wajah */}
+          <ellipse cx="70" cy="58" rx="30" ry="32" fill={skin} />
+          <ellipse cx="41" cy="60" rx="5" ry="7" fill={skinShade} />
+          <ellipse cx="99" cy="60" rx="5" ry="7" fill={skinShade} />
+          {/* rambut remaja bergaya */}
+          <path
+            d="M40 52c-2-22 12-36 30-36s32 14 30 36c-4-6-8-10-13-12-6 5-16 7-27 5-8-1-14 1-20 7z"
+            fill={hair}
+          />
+          <path d="M96 34q10 8 8 22-6-10-14-14z" fill={hair} />
+
+          {/* mata & alis */}
           {mood === "murung" ? (
             <>
-              <path d="M42 46l14 5M78 46l-14 5" stroke="#2b2340" strokeWidth="3" strokeLinecap="round" />
-              <circle cx="49" cy="56" r="3.6" fill="#2b2340" />
-              <circle cx="71" cy="56" r="3.6" fill="#2b2340" />
-              <path d="M50 74q10-8 20 0" stroke="#2b2340" strokeWidth="3.4" fill="none" strokeLinecap="round" />
-              <circle className="narrator-tear" cx="49" cy="63" r="3" fill="#60a5fa" />
+              <path d="M50 48l14 6M90 48l-14 6" stroke="#2b2340" strokeWidth="3.2" strokeLinecap="round" />
+              <circle cx="58" cy="62" r="4" fill="#2b2340" />
+              <circle cx="82" cy="62" r="4" fill="#2b2340" />
+              <path d="M59 80q11-9 22 0" stroke="#2b2340" strokeWidth="3.6" fill="none" strokeLinecap="round" />
+              <circle className="narrator-tear" cx="58" cy="70" r="3.4" fill="#60a5fa" />
             </>
           ) : mood === "senang" ? (
             <>
-              <path d="M42 44q7-6 14 0M64 44q7-6 14 0" stroke="#2b2340" strokeWidth="3" fill="none" strokeLinecap="round" />
-              <path d="M44 55q5-6 10 0M66 55q5-6 10 0" stroke="#2b2340" strokeWidth="3.4" fill="none" strokeLinecap="round" />
-              <path d="M48 68q12 12 24 0" stroke="#2b2340" strokeWidth="3.6" fill="none" strokeLinecap="round" />
-              <circle cx="38" cy="64" r="5" fill="#f472b6" opacity=".6" />
-              <circle cx="82" cy="64" r="5" fill="#f472b6" opacity=".6" />
+              <path d="M50 46q8-7 16 0M74 46q8-7 16 0" stroke="#2b2340" strokeWidth="3.2" fill="none" strokeLinecap="round" />
+              <path d="M52 60q6-7 12 0M76 60q6-7 12 0" stroke="#2b2340" strokeWidth="3.6" fill="none" strokeLinecap="round" />
+              <path d="M57 76q13 13 26 0" stroke="#2b2340" strokeWidth="3.8" fill="none" strokeLinecap="round" />
+              <circle cx="46" cy="72" r="5.5" fill="#f472b6" opacity=".55" />
+              <circle cx="94" cy="72" r="5.5" fill="#f472b6" opacity=".55" />
             </>
           ) : (
             <>
-              <circle cx="49" cy="55" r="4" fill="#2b2340" />
-              <circle cx="71" cy="55" r="4" fill="#2b2340" />
-              <path d="M50 70q10 6 20 0" stroke="#2b2340" strokeWidth="3.2" fill="none" strokeLinecap="round" />
+              <path d="M50 46q8-4 16-1M74 45q8-3 16 1" stroke="#2b2340" strokeWidth="3" fill="none" strokeLinecap="round" />
+              <circle cx="58" cy="61" r="4.4" fill="#2b2340" />
+              <circle cx="82" cy="61" r="4.4" fill="#2b2340" />
+              <path d="M59 78q11 7 22 0" stroke="#2b2340" strokeWidth="3.4" fill="none" strokeLinecap="round" />
             </>
           )}
-          <ellipse className="narrator-mouth" cx="60" cy="72" rx="7" ry="5" fill="#2b2340" />
+          {/* mulut bicara */}
+          <ellipse className="narrator-mouth" cx="70" cy="79" rx="8" ry="6" fill="#2b2340" />
         </g>
       </svg>
     </div>
@@ -73,30 +113,36 @@ export function CardPopup({
   const mood = moodOf(card);
   const [speaking, setSpeaking] = useState(false);
   const [done, setDone] = useState(!narrateOnOpen);
-  const started = useRef(false);
 
   useEffect(() => {
-    if (!narrateOnOpen || started.current) return;
-    started.current = true;
+    if (!narrateOnOpen) return;
     if (isMuted()) {
       setDone(true);
       return;
     }
+    let cancelled = false;
     const text = `Kartu ${s.label}. ${card.title}. ${card.body} ${card.extra}`;
+    setDone(false);
     setSpeaking(true);
     duckMusic(true);
-    narrate(text)
-      .catch(() => {})
+    void narrate(text)
+      .catch((err) => {
+        if (cancelled || (err as Error)?.name === "AbortError") return;
+        console.error("Narasi kartu gagal:", err);
+      })
       .finally(() => {
+        if (cancelled) return;
         setSpeaking(false);
         duckMusic(false);
         setDone(true);
       });
     return () => {
+      cancelled = true;
       stopNarration();
       duckMusic(false);
     };
   }, [card, narrateOnOpen, s.label]);
+
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-foreground/60 px-4 py-8 backdrop-blur-sm">
