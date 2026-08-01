@@ -50,6 +50,20 @@ type Phase = "setup" | "playing" | "finished";
 
 type LogItem = { id: number; text: string };
 
+const SAVE_KEY = "utaka-game-progress-v1";
+
+type SavedGame = {
+  phase: Phase;
+  count: number;
+  names: string[];
+  players: Player[];
+  turn: number;
+  log: LogItem[];
+  totalRolls: number;
+  startedAt: number;
+  elapsed: number;
+};
+
 function BermainPage() {
   const [phase, setPhase] = useState<Phase>("setup");
   const [count, setCount] = useState(2);
@@ -65,7 +79,65 @@ function BermainPage() {
   const [startedAt, setStartedAt] = useState(0);
   const [elapsed, setElapsed] = useState(0);
   const [totalRolls, setTotalRolls] = useState(0);
+  const [soundOn, setSoundOn] = useState(true);
+  const [restored, setRestored] = useState(false);
   const logId = useRef(0);
+  const loaded = useRef(false);
+
+  /* ---- Muat progres tersimpan ---- */
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(SAVE_KEY);
+      if (raw) {
+        const s = JSON.parse(raw) as SavedGame;
+        if (s.players?.length && s.phase === "playing") {
+          setPhase("playing");
+          setCount(s.count);
+          setNames(s.names);
+          setPlayers(s.players);
+          setTurn(s.turn);
+          setLog(s.log ?? []);
+          setTotalRolls(s.totalRolls ?? 0);
+          setElapsed(s.elapsed ?? 0);
+          setStartedAt(Date.now() - (s.elapsed ?? 0));
+          logId.current = (s.log?.[0]?.id ?? 0) + 1;
+          setRestored(true);
+        }
+      }
+    } catch {
+      /* abaikan progres rusak */
+    }
+    loaded.current = true;
+  }, []);
+
+  /* ---- Simpan progres otomatis ---- */
+  useEffect(() => {
+    if (!loaded.current) return;
+    if (phase === "playing" && players.length > 0) {
+      const data: SavedGame = {
+        phase,
+        count,
+        names,
+        players,
+        turn,
+        log,
+        totalRolls,
+        startedAt,
+        elapsed,
+      };
+      try {
+        localStorage.setItem(SAVE_KEY, JSON.stringify(data));
+      } catch {
+        /* penyimpanan penuh */
+      }
+    } else if (phase !== "playing") {
+      localStorage.removeItem(SAVE_KEY);
+    }
+  }, [phase, count, names, players, turn, log, totalRolls, startedAt, elapsed]);
+
+  useEffect(() => {
+    setMuted(!soundOn);
+  }, [soundOn]);
 
   useEffect(() => {
     if (phase !== "playing") return;
@@ -77,6 +149,7 @@ function BermainPage() {
     logId.current += 1;
     setLog((l) => [{ id: logId.current, text }, ...l].slice(0, 30));
   }, []);
+
 
   function start() {
     const list: Player[] = Array.from({ length: count }, (_, i) => ({
