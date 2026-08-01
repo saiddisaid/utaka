@@ -152,6 +152,7 @@ function BermainPage() {
 
 
   function start() {
+    unlockAudio();
     const list: Player[] = Array.from({ length: count }, (_, i) => ({
       id: i,
       name: names[i]?.trim() || `Pemain ${i + 1}`,
@@ -164,6 +165,7 @@ function BermainPage() {
     setWinner(null);
     setTotalRolls(0);
     setElapsed(0);
+    setRestored(false);
     setStartedAt(Date.now());
     setPhase("playing");
     addLog(`Permainan dimulai! Giliran pertama: ${list[0]!.name}.`);
@@ -173,8 +175,10 @@ function BermainPage() {
 
   async function roll() {
     if (busy || phase !== "playing") return;
+    unlockAudio();
     setBusy(true);
     setRolling(true);
+    sfxDiceRoll();
     const value = 1 + Math.floor(Math.random() * 6);
     for (let i = 0; i < 6; i++) {
       setDice(1 + Math.floor(Math.random() * 6));
@@ -193,6 +197,7 @@ function BermainPage() {
       pos += 1;
       const step = pos;
       setPlayers((ps) => ps.map((p) => (p.id === current.id ? { ...p, pos: step } : p)));
+      sfxStep();
       await sleep(180);
     }
 
@@ -203,6 +208,7 @@ function BermainPage() {
       drawn = tanggaCards[idx % tanggaCards.length]!;
       const to = ladders[pos]!;
       await sleep(300);
+      sfxLadder();
       setPlayers((ps) => ps.map((p) => (p.id === current.id ? { ...p, pos: to } : p)));
       addLog(`🪜 ${current.name} naik tangga dari ${pos} ke ${to}.`);
       pos = to;
@@ -211,6 +217,7 @@ function BermainPage() {
       drawn = ularCards[idx % ularCards.length]!;
       const to = snakes[pos]!;
       await sleep(300);
+      sfxSnake();
       setPlayers((ps) => ps.map((p) => (p.id === current.id ? { ...p, pos: to } : p)));
       addLog(`🐍 ${current.name} turun ular dari ${pos} ke ${to}.`);
       pos = to;
@@ -221,15 +228,19 @@ function BermainPage() {
     }
 
     if (drawn) {
+      const type = drawn.type;
       setPlayers((ps) =>
         ps.map((p) => (p.id === current.id ? { ...p, cards: p.cards + 1 } : p)),
       );
+      await sleep(320);
+      sfxForCard(type);
       setCard(drawn);
       return; // giliran lanjut setelah popup ditutup
     }
 
     finishTurn(pos, current.id);
   }
+
 
   function finishTurn(pos: number, playerId: number) {
     if (pos >= BOARD_SIZE) {
