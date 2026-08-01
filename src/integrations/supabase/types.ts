@@ -14,7 +14,250 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      room_events: {
+        Row: {
+          created_at: string
+          id: number
+          room_id: string
+          text: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          room_id: string
+          text: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          room_id?: string
+          text?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "room_events_room_id_fkey"
+            columns: ["room_id"]
+            isOneToOne: false
+            referencedRelation: "rooms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      room_messages: {
+        Row: {
+          body: string
+          created_at: string
+          id: number
+          name: string
+          player_id: string | null
+          room_id: string
+        }
+        Insert: {
+          body: string
+          created_at?: string
+          id?: number
+          name: string
+          player_id?: string | null
+          room_id: string
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          id?: number
+          name?: string
+          player_id?: string | null
+          room_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "room_messages_player_id_fkey"
+            columns: ["player_id"]
+            isOneToOne: false
+            referencedRelation: "room_players"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "room_messages_room_id_fkey"
+            columns: ["room_id"]
+            isOneToOne: false
+            referencedRelation: "rooms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      room_player_tokens: {
+        Row: {
+          created_at: string
+          player_id: string
+          room_id: string
+          token: string
+        }
+        Insert: {
+          created_at?: string
+          player_id: string
+          room_id: string
+          token: string
+        }
+        Update: {
+          created_at?: string
+          player_id?: string
+          room_id?: string
+          token?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "room_player_tokens_player_id_fkey"
+            columns: ["player_id"]
+            isOneToOne: true
+            referencedRelation: "room_players"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "room_player_tokens_room_id_fkey"
+            columns: ["room_id"]
+            isOneToOne: false
+            referencedRelation: "rooms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      room_players: {
+        Row: {
+          cards: number
+          created_at: string
+          id: string
+          last_seen: string
+          name: string
+          pos: number
+          room_id: string
+          seat: number
+          user_id: string | null
+        }
+        Insert: {
+          cards?: number
+          created_at?: string
+          id?: string
+          last_seen?: string
+          name: string
+          pos?: number
+          room_id: string
+          seat: number
+          user_id?: string | null
+        }
+        Update: {
+          cards?: number
+          created_at?: string
+          id?: string
+          last_seen?: string
+          name?: string
+          pos?: number
+          room_id?: string
+          seat?: number
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "room_players_room_id_fkey"
+            columns: ["room_id"]
+            isOneToOne: false
+            referencedRelation: "rooms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      room_reflections: {
+        Row: {
+          answers: Json
+          created_at: string
+          id: string
+          name: string
+          player_id: string | null
+          room_id: string
+        }
+        Insert: {
+          answers?: Json
+          created_at?: string
+          id?: string
+          name: string
+          player_id?: string | null
+          room_id: string
+        }
+        Update: {
+          answers?: Json
+          created_at?: string
+          id?: string
+          name?: string
+          player_id?: string | null
+          room_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "room_reflections_player_id_fkey"
+            columns: ["player_id"]
+            isOneToOne: false
+            referencedRelation: "room_players"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "room_reflections_room_id_fkey"
+            columns: ["room_id"]
+            isOneToOne: false
+            referencedRelation: "rooms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      rooms: {
+        Row: {
+          code: string
+          created_at: string
+          dice: number
+          finished_at: string | null
+          host_player_id: string | null
+          id: string
+          pending_card_id: string | null
+          pending_card_player_id: string | null
+          started_at: string | null
+          status: string
+          total_rolls: number
+          turn_index: number
+          updated_at: string
+          winner_player_id: string | null
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          dice?: number
+          finished_at?: string | null
+          host_player_id?: string | null
+          id?: string
+          pending_card_id?: string | null
+          pending_card_player_id?: string | null
+          started_at?: string | null
+          status?: string
+          total_rolls?: number
+          turn_index?: number
+          updated_at?: string
+          winner_player_id?: string | null
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          dice?: number
+          finished_at?: string | null
+          host_player_id?: string | null
+          id?: string
+          pending_card_id?: string | null
+          pending_card_player_id?: string | null
+          started_at?: string | null
+          status?: string
+          total_rolls?: number
+          turn_index?: number
+          updated_at?: string
+          winner_player_id?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
