@@ -12,15 +12,15 @@ export function CardPopup({
 }) {
   const s = typeStyles[card.type];
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-foreground/45 px-4 py-8 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-foreground/60 px-4 py-8 backdrop-blur-sm">
       <div
         role="dialog"
         aria-modal="true"
-        className={`animate-pop w-full max-w-md overflow-hidden rounded-3xl border-2 ${s.ring} ${s.bg} shadow-lift`}
+        className={`animate-pop w-full max-w-md overflow-hidden rounded-3xl border-4 ${s.ring} ${s.bg} shadow-lift`}
       >
         <div className="flex items-center justify-between gap-3 px-6 pt-6">
-          <span className={`rounded-full px-3 py-1 text-xs font-bold ${s.chip}`}>
-            Kartu {s.label} · {card.code}
+          <span className={`rounded-full px-3 py-1 text-xs font-black uppercase ${s.chip}`}>
+            Kartu {s.label}
           </span>
         </div>
 
@@ -30,7 +30,7 @@ export function CardPopup({
           </div>
           <h2 className={`mt-4 font-display text-xl font-extrabold ${s.ink}`}>{card.title}</h2>
           <p className="mt-3 text-sm leading-relaxed text-foreground/80">{card.body}</p>
-          <div className="mt-4 rounded-2xl bg-card/80 px-4 py-3 text-sm font-semibold text-foreground/80">
+          <div className="mt-4 rounded-2xl bg-card/90 px-4 py-3 text-sm font-semibold text-foreground/80">
             {card.extra}
           </div>
         </div>
@@ -39,7 +39,7 @@ export function CardPopup({
           <button
             type="button"
             onClick={onClose}
-            className="w-full rounded-2xl bg-primary px-5 py-3 font-display text-base font-bold text-primary-foreground transition-transform hover:scale-[1.02]"
+            className="w-full rounded-2xl bg-primary px-5 py-3 font-display text-base font-extrabold text-primary-foreground transition-transform hover:scale-[1.02]"
           >
             {ctaLabel}
           </button>
