@@ -190,11 +190,13 @@ export function CardPopup({
           <button
             type="button"
             onClick={replay}
-            className="inline-flex items-center gap-1.5 rounded-full bg-card/80 px-3 py-1 text-[11px] font-bold text-foreground/70 transition-transform hover:scale-105"
+            disabled={lockedByNarration}
+            className="inline-flex items-center gap-1.5 rounded-full bg-card/80 px-3 py-1 text-[11px] font-bold text-foreground/70 transition-transform hover:scale-105 disabled:cursor-not-allowed disabled:hover:scale-100"
           >
             {speaking ? (
               <>
-                <Volume2 className="h-3.5 w-3.5 animate-pulse" /> Sedang dibacakan… (hentikan)
+                <Volume2 className="h-3.5 w-3.5 animate-pulse" />{" "}
+                {lockedByNarration ? "Sedang dibacakan…" : "Sedang dibacakan… (hentikan)"}
               </>
             ) : done ? (
               <>
