@@ -64,7 +64,7 @@ export async function narrate(text: string, voice: NarratorVoice = "hangat"): Pr
   const res = await fetch("/api/tts", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ text }),
+    body: JSON.stringify({ text, voice }),
     signal: ctrl.signal,
   });
   if (!res.ok || !res.body) throw new Error(`TTS ${res.status}`);
