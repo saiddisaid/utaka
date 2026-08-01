@@ -22,6 +22,7 @@ import {
 import type { NarratorVoice } from "@/lib/narrate";
 import {
   closeCardFn,
+  getRoomStateFn,
   heartbeatFn,
   joinRoomFn,
   kickPlayerFn,
