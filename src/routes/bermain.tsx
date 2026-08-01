@@ -82,6 +82,7 @@ function BermainPage() {
   const [elapsed, setElapsed] = useState(0);
   const [totalRolls, setTotalRolls] = useState(0);
   const [soundOn, setSoundOn] = useState(true);
+  const [voice, setVoice] = useState<NarratorVoice>("hangat");
   const [restored, setRestored] = useState(false);
   const logId = useRef(0);
   const loaded = useRef(false);
