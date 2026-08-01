@@ -93,3 +93,15 @@ export const linkAccountFn = createServerFn({ method: "POST" })
     const { linkAccount } = await import("./online.server");
     return linkAccount(data.token, context.userId);
   });
+
+/** Membaca state room (server-side, terverifikasi token pemain). */
+export const getRoomStateFn = createServerFn({ method: "POST" })
+  .inputValidator((d) =>
+    z
+      .object({ code: z.string().min(3).max(12), token: z.string().max(200).nullable().optional() })
+      .parse(d),
+  )
+  .handler(async ({ data }) => {
+    const { getRoomState } = await import("./online.server");
+    return getRoomState(data.code, data.token ?? null);
+  });

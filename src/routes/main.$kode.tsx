@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Copy, Loader2, LogIn, Send, Wifi, WifiOff } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
 import { GameBoard, type Player } from "@/components/GameBoard";
 import { Dice, Pion } from "@/components/Dice";
 import { CardPopup } from "@/components/CardPopup";
@@ -22,6 +21,7 @@ import {
 import type { NarratorVoice } from "@/lib/narrate";
 import {
   closeCardFn,
+  getRoomStateFn,
   heartbeatFn,
   joinRoomFn,
   kickPlayerFn,
@@ -132,35 +132,27 @@ function RoomPage() {
     setJoinName(lastUsedName() || "Pemain");
   }, [code]);
 
+  const tokenRef = useRef<string | null>(null);
+  tokenRef.current = session?.token ?? null;
+
   const refresh = useCallback(async () => {
-    const { data: r } = await supabase.from("rooms").select("*").eq("code", code).maybeSingle();
-    if (!r) {
+    const state = await getRoomStateFn({
+      data: { code, token: tokenRef.current },
+    }).catch(() => null);
+    if (!state) {
+      setLoading(false);
+      return;
+    }
+    if (state.notFound) {
       setNotFound(true);
       setLoading(false);
       return;
     }
-    const roomRow = r as unknown as RoomRow;
-    setRoom(roomRow);
-    const [p, e, m, rf] = await Promise.all([
-      supabase.from("room_players").select("*").eq("room_id", roomRow.id).order("seat"),
-      supabase
-        .from("room_events")
-        .select("id, text, created_at")
-        .eq("room_id", roomRow.id)
-        .order("id", { ascending: false })
-        .limit(40),
-      supabase
-        .from("room_messages")
-        .select("id, name, body, created_at")
-        .eq("room_id", roomRow.id)
-        .order("id", { ascending: false })
-        .limit(50),
-      supabase.from("room_reflections").select("id, name, answers").eq("room_id", roomRow.id),
-    ]);
-    setPlayers((p.data ?? []) as PlayerRow[]);
-    setEvents((e.data ?? []) as EventRow[]);
-    setMessages(((m.data ?? []) as MessageRow[]).slice().reverse());
-    setReflections((rf.data ?? []) as unknown as ReflectionRow[]);
+    setRoom(state.room as unknown as RoomRow);
+    setPlayers((state.players ?? []) as unknown as PlayerRow[]);
+    setEvents((state.events ?? []) as unknown as EventRow[]);
+    setMessages(((state.messages ?? []) as unknown as MessageRow[]).slice().reverse());
+    setReflections((state.reflections ?? []) as unknown as ReflectionRow[]);
     setLoading(false);
   }, [code]);
 
@@ -168,21 +160,12 @@ function RoomPage() {
     void refresh();
   }, [refresh]);
 
-  // Realtime
+  // Sinkronisasi berkala (data dibaca lewat server, bukan langsung dari database)
   useEffect(() => {
-    if (!room?.id) return;
-    const channel = supabase
-      .channel(`room-${room.id}`)
-      .on("postgres_changes", { event: "*", schema: "public", table: "rooms", filter: `id=eq.${room.id}` }, () => void refresh())
-      .on("postgres_changes", { event: "*", schema: "public", table: "room_players", filter: `room_id=eq.${room.id}` }, () => void refresh())
-      .on("postgres_changes", { event: "*", schema: "public", table: "room_events", filter: `room_id=eq.${room.id}` }, () => void refresh())
-      .on("postgres_changes", { event: "*", schema: "public", table: "room_messages", filter: `room_id=eq.${room.id}` }, () => void refresh())
-      .on("postgres_changes", { event: "*", schema: "public", table: "room_reflections", filter: `room_id=eq.${room.id}` }, () => void refresh())
-      .subscribe();
-    return () => {
-      void supabase.removeChannel(channel);
-    };
-  }, [room?.id, refresh]);
+    const t = setInterval(() => void refresh(), 1500);
+    return () => clearInterval(t);
+  }, [refresh]);
+
 
   // Heartbeat + jam status koneksi
   useEffect(() => {
