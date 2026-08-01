@@ -115,21 +115,25 @@ export function CardPopup({
   const mood = moodOf(card);
   const [speaking, setSpeaking] = useState(false);
   const [done, setDone] = useState(!narrateOnOpen);
-  const cancelledRef = useRef(false);
+  const [minimumWaitDone, setMinimumWaitDone] = useState(!narrateOnOpen);
+  const narrationRunRef = useRef(0);
 
   const text = `Kartu ${s.label}. ${card.title}. ${card.body} ${card.extra}`;
+  const minimumWaitMs = Math.min(14000, Math.max(8000, Math.ceil(text.split(/\s+/).length / 3.5) * 1000));
 
   const play = useCallback(() => {
-    cancelledRef.current = false;
+    const runId = ++narrationRunRef.current;
     setSpeaking(true);
     duckMusic(true);
     void narrate(text, voice)
       .catch((err) => {
-        if (cancelledRef.current || (err as Error)?.name === "AbortError") return;
+        if (runId !== narrationRunRef.current || (err as Error)?.name === "AbortError") return;
         console.error("Narasi kartu gagal:", err);
       })
       .finally(() => {
-        if (cancelledRef.current) return;
+        // Hanya pemutaran terbaru yang boleh membuka kunci. Ini mencegah
+        // cleanup StrictMode dari pemutaran lama membuka tombol terlalu dini.
+        if (runId !== narrationRunRef.current) return;
         setSpeaking(false);
         duckMusic(false);
         setDone(true);
@@ -138,35 +142,38 @@ export function CardPopup({
 
   useEffect(() => {
     if (!narrateOnOpen) return;
+    setMinimumWaitDone(false);
+    const waitTimer = window.setTimeout(() => setMinimumWaitDone(true), minimumWaitMs);
     if (isMuted()) {
       setDone(true);
-      return;
+      return () => window.clearTimeout(waitTimer);
     }
     setDone(false);
     play();
     return () => {
-      cancelledRef.current = true;
+      window.clearTimeout(waitTimer);
+      narrationRunRef.current += 1;
       stopNarration();
       duckMusic(false);
     };
-  }, [narrateOnOpen, play]);
+  }, [narrateOnOpen, minimumWaitMs, play]);
 
   useEffect(
     () => () => {
-      cancelledRef.current = true;
+      narrationRunRef.current += 1;
       stopNarration();
       duckMusic(false);
     },
     [],
   );
 
-  const lockedByNarration = narrateOnOpen && (!done || speaking);
+  const lockedByNarration = narrateOnOpen && (!done || speaking || !minimumWaitDone);
 
   const replay = () => {
     // Saat kartu wajib dibacakan, pemain tidak boleh menghentikan narasi.
     if (lockedByNarration) return;
     if (speaking) {
-      cancelledRef.current = true;
+      narrationRunRef.current += 1;
       stopNarration();
       duckMusic(false);
       setSpeaking(false);
@@ -225,15 +232,21 @@ export function CardPopup({
           </div>
         </div>
 
-        <div className="p-6 pt-4">
-          <button
-            type="button"
-            onClick={onClose}
-            disabled={lockedByNarration}
-            className="w-full rounded-2xl bg-primary px-5 py-3 font-display text-base font-extrabold text-primary-foreground transition-transform hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:scale-100"
-          >
-            {lockedByNarration ? "Dengarkan dulu kartunya…" : ctaLabel}
-          </button>
+        <div className="min-h-24 p-6 pt-4">
+          {lockedByNarration ? (
+            <div className="flex min-h-12 items-center justify-center gap-2 rounded-2xl bg-card/70 px-5 py-3 text-center text-sm font-bold text-foreground/70" role="status">
+              <Loader2 className="h-4 w-4 shrink-0 animate-spin" />
+              {speaking || !done ? "Dengarkan narasi sampai selesai…" : "Baca dan pahami kartunya sebentar…"}
+            </div>
+          ) : (
+            <button
+              type="button"
+              onClick={onClose}
+              className="w-full rounded-2xl bg-primary px-5 py-3 font-display text-base font-extrabold text-primary-foreground transition-transform hover:scale-[1.02]"
+            >
+              {ctaLabel}
+            </button>
+          )}
         </div>
 
       </div>
