@@ -79,56 +79,67 @@
 :root {
   --radius: 1.15rem;
 
-  --background: oklch(0.995 0.003 95);
-  --foreground: oklch(0.28 0.035 268);
-  --cream: oklch(0.972 0.018 88);
+  --background: oklch(0.99 0.006 250);
+  --foreground: oklch(0.22 0.09 268);
+  --cream: oklch(0.96 0.03 95);
 
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.28 0.035 268);
+  --card-foreground: oklch(0.22 0.09 268);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.28 0.035 268);
+  --popover-foreground: oklch(0.22 0.09 268);
 
-  /* Biru lembut = CTA */
-  --primary: oklch(0.68 0.13 245);
+  /* Biru kuat = CTA */
+  --primary: oklch(0.5 0.22 264);
   --primary-foreground: oklch(0.99 0.005 250);
 
-  --secondary: oklch(0.955 0.02 250);
-  --secondary-foreground: oklch(0.34 0.05 265);
-  --muted: oklch(0.965 0.012 250);
-  --muted-foreground: oklch(0.52 0.03 265);
-  --accent: oklch(0.94 0.035 330);
-  --accent-foreground: oklch(0.35 0.08 340);
-  --destructive: oklch(0.62 0.19 25);
+  --secondary: oklch(0.92 0.06 250);
+  --secondary-foreground: oklch(0.26 0.12 265);
+  --muted: oklch(0.95 0.03 250);
+  --muted-foreground: oklch(0.42 0.07 265);
+  --accent: oklch(0.68 0.24 8);
+  --accent-foreground: oklch(0.99 0.01 340);
+  --destructive: oklch(0.56 0.24 27);
   --destructive-foreground: oklch(0.99 0.005 250);
-  --border: oklch(0.92 0.012 255);
-  --input: oklch(0.92 0.012 255);
-  --ring: oklch(0.75 0.09 245);
+  --border: oklch(0.86 0.03 255);
+  --input: oklch(0.86 0.03 255);
+  --ring: oklch(0.5 0.22 264);
 
-  /* Hijau pastel = Tangga */
-  --tangga: oklch(0.8 0.12 150);
-  --tangga-soft: oklch(0.955 0.045 152);
-  --tangga-ink: oklch(0.44 0.11 155);
+  /* Hijau terang = Tangga */
+  --tangga: oklch(0.72 0.22 138);
+  --tangga-soft: oklch(0.92 0.13 140);
+  --tangga-ink: oklch(0.36 0.14 145);
 
-  /* Ungu pastel = Ular */
-  --ular: oklch(0.75 0.11 305);
-  --ular-soft: oklch(0.955 0.035 305);
-  --ular-ink: oklch(0.44 0.13 303);
+  /* Ungu/magenta kuat = Ular */
+  --ular: oklch(0.58 0.26 320);
+  --ular-soft: oklch(0.91 0.09 320);
+  --ular-ink: oklch(0.35 0.2 318);
 
-  /* Pink pastel = Fun Fact */
-  --funfact: oklch(0.79 0.11 355);
-  --funfact-soft: oklch(0.96 0.03 355);
-  --funfact-ink: oklch(0.48 0.15 0);
+  /* Pink menyala = Fun Fact */
+  --funfact: oklch(0.63 0.27 5);
+  --funfact-soft: oklch(0.92 0.09 5);
+  --funfact-ink: oklch(0.4 0.22 6);
 
-  --pion-1: oklch(0.68 0.15 250);
-  --pion-2: oklch(0.72 0.15 150);
-  --pion-3: oklch(0.75 0.14 40);
-  --pion-4: oklch(0.7 0.15 330);
+  /* Palet papan (kuat, seperti papan cetak) */
+  --board-red: #e01b24;
+  --board-navy: #1a2a8f;
+  --board-blue: #1f5fe0;
+  --board-yellow: #ffd400;
+  --board-magenta: #d61f8f;
+  --board-pink: #ff3d9a;
+  --board-orange: #ff6a13;
+  --board-green: #8ede2b;
 
-  --chart-1: oklch(0.68 0.13 245);
-  --chart-2: oklch(0.8 0.12 150);
-  --chart-3: oklch(0.75 0.11 305);
-  --chart-4: oklch(0.79 0.11 355);
-  --chart-5: oklch(0.8 0.12 80);
+  --pion-1: #e01b24;
+  --pion-2: #1f5fe0;
+  --pion-3: #ffd400;
+  --pion-4: #17c964;
+
+  --chart-1: oklch(0.5 0.22 264);
+  --chart-2: oklch(0.72 0.22 138);
+  --chart-3: oklch(0.58 0.26 320);
+  --chart-4: oklch(0.63 0.27 5);
+  --chart-5: oklch(0.78 0.19 85);
+
 
   --sidebar: oklch(0.985 0.008 250);
   --sidebar-foreground: oklch(0.28 0.035 268);
