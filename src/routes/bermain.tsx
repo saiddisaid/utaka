@@ -218,7 +218,7 @@ function BermainPage() {
           <div className="mt-6 space-y-3">
             {Array.from({ length: count }, (_, i) => (
               <div key={i} className="flex items-center gap-3">
-                <Pion color={playerColors[i]!} size={20} />
+                <Pion color={playerColors[i]!} size={30} />
                 <input
                   value={names[i]}
                   onChange={(e) =>
@@ -293,7 +293,7 @@ function BermainPage() {
                 className="flex items-center gap-3 rounded-2xl border border-border bg-card p-4"
               >
                 <span className="font-display font-extrabold text-muted-foreground">#{i + 1}</span>
-                <Pion color={playerColors[p.id]!} size={16} />
+                <Pion color={playerColors[p.id]!} size={24} />
                 <span className="min-w-0 flex-1 truncate font-semibold">{p.name}</span>
                 <span className="text-sm text-muted-foreground">petak {p.pos}</span>
                 <span className="text-sm text-muted-foreground">{p.cards} kartu</span>
@@ -333,7 +333,7 @@ function BermainPage() {
         <aside className="space-y-4">
           <div className="card-soft p-5">
             <div className="flex min-w-0 items-center gap-3">
-              <Pion color={playerColors[current.id]!} size={20} active />
+              <Pion color={playerColors[current.id]!} size={30} active />
               <div className="min-w-0">
                 <p className="text-xs font-bold uppercase text-muted-foreground">Giliran</p>
                 <p className="truncate font-display text-lg font-bold">{current.name}</p>
@@ -362,7 +362,7 @@ function BermainPage() {
               {players.map((p) => (
                 <div key={p.id}>
                   <div className="flex items-center gap-2 text-sm">
-                    <Pion color={playerColors[p.id]!} size={13} />
+                    <Pion color={playerColors[p.id]!} size={20} />
                     <span className="min-w-0 flex-1 truncate font-semibold">{p.name}</span>
                     <span className="shrink-0 text-xs text-muted-foreground">
                       {p.pos}/100 · {p.cards}🃏
