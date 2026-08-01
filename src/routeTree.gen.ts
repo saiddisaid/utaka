@@ -14,6 +14,7 @@ import { Route as BelajarRouteImport } from './routes/belajar'
 import { Route as BermainRouteImport } from './routes/bermain'
 import { Route as CaraBermainRouteImport } from './routes/cara-bermain'
 import { Route as KartuRouteImport } from './routes/kartu'
+import { Route as OnlineRouteImport } from './routes/online'
 import { Route as RefleksiRouteImport } from './routes/refleksi'
 import { Route as TentangRouteImport } from './routes/tentang'
 import { Route as ApiTtsRouteImport } from './routes/api/tts'
@@ -43,6 +44,11 @@ const KartuRoute = KartuRouteImport.update({
   path: '/kartu',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OnlineRoute = OnlineRouteImport.update({
+  id: '/online',
+  path: '/online',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RefleksiRoute = RefleksiRouteImport.update({
   id: '/refleksi',
   path: '/refleksi',
@@ -65,6 +71,7 @@ export interface FileRoutesByFullPath {
   '/bermain': typeof BermainRoute
   '/cara-bermain': typeof CaraBermainRoute
   '/kartu': typeof KartuRoute
+  '/online': typeof OnlineRoute
   '/refleksi': typeof RefleksiRoute
   '/tentang': typeof TentangRoute
   '/api/tts': typeof ApiTtsRoute
@@ -75,6 +82,7 @@ export interface FileRoutesByTo {
   '/bermain': typeof BermainRoute
   '/cara-bermain': typeof CaraBermainRoute
   '/kartu': typeof KartuRoute
+  '/online': typeof OnlineRoute
   '/refleksi': typeof RefleksiRoute
   '/tentang': typeof TentangRoute
   '/api/tts': typeof ApiTtsRoute
@@ -86,6 +94,7 @@ export interface FileRoutesById {
   '/bermain': typeof BermainRoute
   '/cara-bermain': typeof CaraBermainRoute
   '/kartu': typeof KartuRoute
+  '/online': typeof OnlineRoute
   '/refleksi': typeof RefleksiRoute
   '/tentang': typeof TentangRoute
   '/api/tts': typeof ApiTtsRoute
@@ -98,6 +107,7 @@ export interface FileRouteTypes {
     | '/bermain'
     | '/cara-bermain'
     | '/kartu'
+    | '/online'
     | '/refleksi'
     | '/tentang'
     | '/api/tts'
@@ -108,6 +118,7 @@ export interface FileRouteTypes {
     | '/bermain'
     | '/cara-bermain'
     | '/kartu'
+    | '/online'
     | '/refleksi'
     | '/tentang'
     | '/api/tts'
@@ -118,6 +129,7 @@ export interface FileRouteTypes {
     | '/bermain'
     | '/cara-bermain'
     | '/kartu'
+    | '/online'
     | '/refleksi'
     | '/tentang'
     | '/api/tts'
@@ -129,6 +141,7 @@ export interface RootRouteChildren {
   BermainRoute: typeof BermainRoute
   CaraBermainRoute: typeof CaraBermainRoute
   KartuRoute: typeof KartuRoute
+  OnlineRoute: typeof OnlineRoute
   RefleksiRoute: typeof RefleksiRoute
   TentangRoute: typeof TentangRoute
   ApiTtsRoute: typeof ApiTtsRoute
@@ -171,6 +184,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof KartuRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/online': {
+      id: '/online'
+      path: '/online'
+      fullPath: '/online'
+      preLoaderRoute: typeof OnlineRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/refleksi': {
       id: '/refleksi'
       path: '/refleksi'
@@ -201,6 +221,7 @@ const rootRouteChildren: RootRouteChildren = {
   BermainRoute: BermainRoute,
   CaraBermainRoute: CaraBermainRoute,
   KartuRoute: KartuRoute,
+  OnlineRoute: OnlineRoute,
   RefleksiRoute: RefleksiRoute,
   TentangRoute: TentangRoute,
   ApiTtsRoute: ApiTtsRoute,
