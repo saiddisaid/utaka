@@ -48,6 +48,16 @@
   --color-funfact-soft: var(--funfact-soft);
   --color-funfact-ink: var(--funfact-ink);
 
+  --color-board-red: var(--board-red);
+  --color-board-navy: var(--board-navy);
+  --color-board-blue: var(--board-blue);
+  --color-board-yellow: var(--board-yellow);
+  --color-board-magenta: var(--board-magenta);
+  --color-board-pink: var(--board-pink);
+  --color-board-orange: var(--board-orange);
+  --color-board-green: var(--board-green);
+
+
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
