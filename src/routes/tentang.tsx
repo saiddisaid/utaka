@@ -101,17 +101,28 @@ function Tentang() {
       </section>
 
       <section className="mt-10">
-        <h2 className="text-2xl font-extrabold">Tim Pengembang</h2>
+        <h2 className="text-2xl font-extrabold">Tim Peneliti</h2>
         <div className="mt-5 grid gap-4 sm:grid-cols-2">
           {tim.map((t) => (
-            <div key={t.role} className="card-soft hover-lift p-6">
-              <span className="text-2xl">{t.emoji}</span>
-              <h3 className="mt-3 font-display text-base font-bold">{t.role}</h3>
-              <p className="mt-1 text-sm text-muted-foreground">{t.text}</p>
+            <div key={t.name} className="card-soft hover-lift flex items-center gap-4 p-6">
+              <img
+                src={t.avatar}
+                alt={`Avatar ${t.name}`}
+                width={512}
+                height={512}
+                loading="lazy"
+                className="h-20 w-20 shrink-0 rounded-full bg-secondary object-cover"
+              />
+              <div className="min-w-0">
+                <h3 className="font-display text-base font-bold">{t.name}</h3>
+                <p className="text-xs font-bold uppercase tracking-wide text-primary">{t.role}</p>
+                <p className="mt-1 text-sm text-muted-foreground">{t.text}</p>
+              </div>
             </div>
           ))}
         </div>
       </section>
+
 
       <div className="mt-12 flex flex-wrap items-center justify-between gap-4 rounded-3xl bg-primary/10 p-8">
         <div>
