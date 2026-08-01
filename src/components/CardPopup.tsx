@@ -160,7 +160,11 @@ export function CardPopup({
     [],
   );
 
+  const lockedByNarration = narrateOnOpen && (!done || speaking);
+
   const replay = () => {
+    // Saat kartu wajib dibacakan, pemain tidak boleh menghentikan narasi.
+    if (lockedByNarration) return;
     if (speaking) {
       cancelledRef.current = true;
       stopNarration();
