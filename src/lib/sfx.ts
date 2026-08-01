@@ -163,10 +163,64 @@ export function isMusicPlaying() {
 
 /* ---------------- Efek permainan ---------------- */
 
-/** Dadu diputar: rentetan bunyi kocokan yang lebih tebal & lebih lama. */
+/** Satu benturan dadu (klik kayu/plastik) yang terdengar nyata. */
+function diceClack(delay: number, gain = 0.5, bright = 1) {
+  const c = ac();
+  if (!c || !master) return;
+  const t0 = c.currentTime + delay;
+  const dur = 0.06;
+  const frames = Math.floor(c.sampleRate * dur);
+  const buffer = c.createBuffer(1, frames, c.sampleRate);
+  const data = buffer.getChannelData(0);
+  for (let i = 0; i < frames; i++) {
+    const env = Math.pow(1 - i / frames, 6);
+    data[i] = (Math.random() * 2 - 1) * env;
+  }
+  const src = c.createBufferSource();
+  src.buffer = buffer;
+
+  // resonansi bodi dadu (kayu keras) + sedikit klik tajam
+  const body = c.createBiquadFilter();
+  body.type = "bandpass";
+  body.frequency.value = (1100 + Math.random() * 900) * bright;
+  body.Q.value = 5;
+
+  const hp = c.createBiquadFilter();
+  hp.type = "highpass";
+  hp.frequency.value = 400;
+
+  const g = c.createGain();
+  g.gain.setValueAtTime(gain * (0.7 + Math.random() * 0.6), t0);
+  g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+
+  src.connect(hp).connect(body).connect(g).connect(master);
+  src.start(t0);
+
+  // "thock" nada rendah kecil agar terasa padat
+  const osc = c.createOscillator();
+  const og = c.createGain();
+  osc.type = "sine";
+  osc.frequency.setValueAtTime(180 + Math.random() * 120, t0);
+  og.gain.setValueAtTime(gain * 0.25, t0);
+  og.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.05);
+  osc.connect(og).connect(master);
+  osc.start(t0);
+  osc.stop(t0 + 0.08);
+}
+
+/** Dadu dikocok lalu jatuh & berhenti di meja — bunyi benturan nyata. */
 export function sfxDiceRoll() {
-  for (let i = 0; i < 14; i++) noise(0.09, 0.3, i * 0.085);
-  tone({ freq: 520, duration: 0.2, type: "triangle", gain: 0.35, delay: 1.15 });
+  // fase kocokan di tangan/cup: benturan rapat dan acak
+  let t = 0;
+  while (t < 1.15) {
+    diceClack(t, 0.45, 1);
+    t += 0.055 + Math.random() * 0.05;
+  }
+  // dadu dilempar ke meja: pantulan makin jarang & makin pelan
+  const bounces = [1.25, 1.4, 1.53, 1.63, 1.7, 1.75];
+  bounces.forEach((d, i) => diceClack(d, 0.6 - i * 0.08, 1.15));
+  // gesekan terakhir saat dadu berhenti
+  noise(0.12, 0.14, 1.8);
 }
 
 /** Bidak melangkah satu petak. */
