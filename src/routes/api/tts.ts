@@ -5,17 +5,17 @@ const VOICES = {
   hangat: {
     gemini: "Kore",
     openai: "alloy",
-    gaya: "Bacakan dengan ramah, hangat, dan menenangkan dalam Bahasa Indonesia baku, tempo sedang",
+    gaya: "Bacakan dengan ramah dan hangat dalam Bahasa Indonesia baku, dengan tempo cepat dan lancar seperti pembawa acara yang bersemangat, jangan melambat-lambatkan kata",
   },
   ceria: {
     gemini: "Puck",
     openai: "nova",
-    gaya: "Bacakan dengan ceria, bersemangat, dan akrab seperti kakak pendamping remaja, dalam Bahasa Indonesia baku",
+    gaya: "Bacakan dengan ceria, bersemangat, dan akrab seperti kakak pendamping remaja, dalam Bahasa Indonesia baku, tempo cepat dan lancar, jangan lambat",
   },
   tenang: {
     gemini: "Aoede",
     openai: "shimmer",
-    gaya: "Bacakan dengan tenang, lembut, dan penuh empati dalam Bahasa Indonesia baku, tempo pelan",
+    gaya: "Bacakan dengan tenang dan penuh empati dalam Bahasa Indonesia baku, namun tetap dengan tempo cepat dan lancar, jangan lambat atau mendayu",
   },
 } as const;
 
