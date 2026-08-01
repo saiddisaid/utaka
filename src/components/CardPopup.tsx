@@ -229,10 +229,10 @@ export function CardPopup({
           <button
             type="button"
             onClick={onClose}
-            disabled={narrateOnOpen && !done}
+            disabled={lockedByNarration}
             className="w-full rounded-2xl bg-primary px-5 py-3 font-display text-base font-extrabold text-primary-foreground transition-transform hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:scale-100"
           >
-            {!narrateOnOpen || done ? ctaLabel : "Dengarkan dulu kartunya…"}
+            {lockedByNarration ? "Dengarkan dulu kartunya…" : ctaLabel}
           </button>
         </div>
 
