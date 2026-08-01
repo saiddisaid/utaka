@@ -22,6 +22,8 @@ import {
   sfxSnake,
   sfxStep,
   sfxWin,
+  startMusic,
+  stopMusic,
   unlockAudio,
 } from "@/lib/sfx";
 
