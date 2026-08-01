@@ -26,6 +26,7 @@ import {
   stopMusic,
   unlockAudio,
 } from "@/lib/sfx";
+import type { NarratorVoice } from "@/lib/narrate";
 
 import { funFactCards, tanggaCards, ularCards, type EduCard } from "@/data/cards";
 
@@ -64,6 +65,7 @@ type SavedGame = {
   totalRolls: number;
   startedAt: number;
   elapsed: number;
+  voice?: NarratorVoice;
 };
 
 function BermainPage() {
@@ -82,6 +84,7 @@ function BermainPage() {
   const [elapsed, setElapsed] = useState(0);
   const [totalRolls, setTotalRolls] = useState(0);
   const [soundOn, setSoundOn] = useState(true);
+  const [voice, setVoice] = useState<NarratorVoice>("hangat");
   const [restored, setRestored] = useState(false);
   const logId = useRef(0);
   const loaded = useRef(false);
@@ -102,6 +105,7 @@ function BermainPage() {
           setTotalRolls(s.totalRolls ?? 0);
           setElapsed(s.elapsed ?? 0);
           setStartedAt(Date.now() - (s.elapsed ?? 0));
+          if (s.voice) setVoice(s.voice);
           logId.current = (s.log?.[0]?.id ?? 0) + 1;
           setRestored(true);
         }
@@ -126,6 +130,7 @@ function BermainPage() {
         totalRolls,
         startedAt,
         elapsed,
+        voice,
       };
       try {
         localStorage.setItem(SAVE_KEY, JSON.stringify(data));
@@ -135,7 +140,8 @@ function BermainPage() {
     } else if (phase !== "playing") {
       localStorage.removeItem(SAVE_KEY);
     }
-  }, [phase, count, names, players, turn, log, totalRolls, startedAt, elapsed]);
+  }, [phase, count, names, players, turn, log, totalRolls, startedAt, elapsed, voice]);
+
 
   useEffect(() => {
     setMuted(!soundOn);
@@ -449,13 +455,34 @@ function BermainPage() {
         </div>
 
         <aside className="space-y-4">
-          <button
-            type="button"
-            onClick={() => setSoundOn((v) => !v)}
-            className="w-full rounded-2xl border-2 border-border px-5 py-3 text-sm font-bold"
-          >
-            {soundOn ? "🔊 Suara Aktif" : "🔇 Suara Mati"}
-          </button>
+          <div className="card-soft space-y-3 p-5">
+            <button
+              type="button"
+              onClick={() => setSoundOn((v) => !v)}
+              className="w-full rounded-2xl border-2 border-border px-5 py-3 text-sm font-bold"
+            >
+              {soundOn ? "🔊 Suara Aktif" : "🔇 Suara Mati"}
+            </button>
+            <div>
+              <label
+                htmlFor="voice"
+                className="text-xs font-bold uppercase text-muted-foreground"
+              >
+                Suara Narator Kartu
+              </label>
+              <select
+                id="voice"
+                value={voice}
+                onChange={(e) => setVoice(e.target.value as NarratorVoice)}
+                className="mt-2 w-full rounded-2xl border-2 border-border bg-card px-4 py-2.5 text-sm font-semibold"
+              >
+                <option value="hangat">Hangat &amp; Ramah</option>
+                <option value="ceria">Ceria &amp; Bersemangat</option>
+                <option value="tenang">Tenang &amp; Lembut</option>
+              </select>
+            </div>
+          </div>
+
 
           <div className="card-soft p-5">
             <div className="flex min-w-0 items-center gap-3">
@@ -529,7 +556,7 @@ function BermainPage() {
         </aside>
       </div>
 
-      {card && <CardPopup card={card} onClose={closeCard} narrateOnOpen />}
+      {card && <CardPopup card={card} onClose={closeCard} narrateOnOpen voice={voice} />}
     </div>
   );
 }
