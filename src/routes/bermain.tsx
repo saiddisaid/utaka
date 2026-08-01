@@ -65,6 +65,7 @@ type SavedGame = {
   totalRolls: number;
   startedAt: number;
   elapsed: number;
+  voice?: NarratorVoice;
 };
 
 function BermainPage() {
