@@ -30,6 +30,7 @@ import {
   saveReflectionFn,
   sendMessageFn,
   skipTurnFn,
+  startGameFn,
 } from "@/lib/online.functions";
 import { getRoomSession, lastUsedName, saveRoomSession, type RoomSession } from "@/lib/room-session";
 
@@ -444,11 +445,7 @@ function RoomPage() {
                   disabled={busy || players.length < 2}
                   onClick={() => {
                     unlockAudio();
-                    void run(() =>
-                      import("@/lib/online.functions").then((m) =>
-                        m.startGameFn({ data: { token: session.token } }),
-                      ),
-                    );
+                    void run(() => startGameFn({ data: { token: session.token } }));
                   }}
                   className="btn-primary mt-6 disabled:opacity-60"
                 >
