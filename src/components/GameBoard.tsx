@@ -72,8 +72,8 @@ function Snake({ from, to }: { from: number; to: number }) {
   }, ${b.x} ${b.y}`;
   return (
     <g>
-      <path d={d} fill="none" stroke="#7e57c2" strokeWidth="5.6" strokeLinecap="round" />
-      <path d={d} fill="none" stroke="#cbb2f0" strokeWidth="4.2" strokeLinecap="round" />
+      <path d={d} fill="none" stroke="#7e57c2" strokeWidth="4.4" strokeLinecap="round" />
+      <path d={d} fill="none" stroke="#cbb2f0" strokeWidth="3.2" strokeLinecap="round" />
       <path
         d={d}
         fill="none"
@@ -82,9 +82,9 @@ function Snake({ from, to }: { from: number; to: number }) {
         strokeDasharray="1.2 2.6"
         strokeLinecap="round"
       />
-      <circle cx={a.x} cy={a.y} r="3" fill="#cbb2f0" stroke="#7e57c2" strokeWidth="0.7" />
-      <circle cx={a.x - 1.1} cy={a.y - 0.8} r="0.6" fill="#1a1a1a" />
-      <circle cx={a.x + 1.1} cy={a.y - 0.8} r="0.6" fill="#1a1a1a" />
+      <circle cx={a.x} cy={a.y} r="2.4" fill="#cbb2f0" stroke="#7e57c2" strokeWidth="0.7" />
+      <circle cx={a.x - 0.9} cy={a.y - 0.7} r="0.5" fill="#1a1a1a" />
+      <circle cx={a.x + 0.9} cy={a.y - 0.7} r="0.5" fill="#1a1a1a" />
       <path d={`M ${a.x} ${a.y + 2.2} l 0 2.4 l -1.2 1`} stroke="#e01b24" strokeWidth="0.6" fill="none" />
     </g>
   );
@@ -174,10 +174,10 @@ export function GameBoard({
       </div>
 
       <div className="mt-1 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 rounded-xl bg-card px-3 py-2 text-[11px] font-extrabold text-foreground">
-        <span className="text-tangga-ink">🪜 Tangga (naik)</span>
-        <span className="text-ular-ink">🐍 Ular (turun)</span>
-        <span className="text-funfact-ink">💡 FUNFACT</span>
-        <span className="text-primary">♛ Finish di 100</span>
+        <span className="text-tangga-ink">Tangga (naik)</span>
+        <span className="text-ular-ink">Ular (turun)</span>
+        <span className="text-funfact-ink">FUNFACT</span>
+        <span className="text-primary">Finish di petak 100</span>
       </div>
     </div>
   );
