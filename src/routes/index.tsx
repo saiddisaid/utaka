@@ -1,7 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { strategies } from "@/data/materi";
 import { allCards } from "@/data/cards";
-import { TeenHero } from "@/components/TeenHero";
+import heroTeens from "@/assets/hero-teens.png";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -53,15 +54,13 @@ function Home() {
     <div>
       {/* Hero */}
       <section className="relative overflow-hidden">
-        <div className="pointer-events-none absolute -left-20 top-10 h-64 w-64 rounded-full bg-tangga-soft blur-3xl" />
-        <div className="pointer-events-none absolute -right-16 top-32 h-72 w-72 rounded-full bg-funfact-soft blur-3xl" />
+        <div className="pointer-events-none absolute -left-20 top-10 h-64 w-64 rounded-full bg-primary/25 blur-3xl" />
+        <div className="pointer-events-none absolute -right-16 top-32 h-72 w-72 rounded-full bg-ular/25 blur-3xl" />
         <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 py-16 md:grid-cols-2 md:py-24">
           <div>
-            <span className="inline-flex items-center gap-2 rounded-full bg-secondary px-4 py-1.5 text-xs font-bold text-secondary-foreground">
-              🎯 Media Psikoedukasi Remaja 15–19 Tahun
-            </span>
-            <h1 className="mt-5 text-4xl font-extrabold leading-tight md:text-5xl">
-              Belajar Regulasi Emosi Lewat Permainan Ular Tangga
+            <h1 className="text-4xl font-extrabold leading-tight md:text-5xl">
+              Belajar Regulasi Emosi Lewat Permainan{" "}
+              <span className="text-primary">Ular Tangga!</span>
             </h1>
             <p className="mt-5 max-w-lg text-base text-muted-foreground md:text-lg">
               UTAKA (Ular Tangga Kartu) menemani kamu memahami perasaan saat cinta tak
@@ -72,11 +71,11 @@ function Home() {
                 to="/bermain"
                 className="rounded-2xl bg-primary px-6 py-3.5 font-display font-bold text-primary-foreground shadow-soft transition-transform hover:scale-105"
               >
-                Mulai Bermain
+                ▶ Mulai Bermain
               </Link>
               <Link
                 to="/belajar"
-                className="rounded-2xl border-2 border-primary/30 bg-card px-6 py-3.5 font-display font-bold text-primary transition-transform hover:scale-105"
+                className="rounded-2xl bg-board-blue px-6 py-3.5 font-display font-bold text-white transition-transform hover:scale-105"
               >
                 Belajar Dulu
               </Link>
@@ -86,9 +85,16 @@ function Home() {
             </p>
           </div>
 
-          <TeenHero />
+          <img
+            src={heroTeens}
+            alt="Dua remaja bermain ular tangga UTAKA bersama"
+            width={1024}
+            height={912}
+            className="animate-float mx-auto h-auto w-full max-w-lg drop-shadow-2xl"
+          />
         </div>
       </section>
+
 
       {/* Keunggulan */}
       <section className="mx-auto max-w-6xl px-4">

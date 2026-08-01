@@ -1,6 +1,8 @@
 import { Link } from "@tanstack/react-router";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
+import logo from "@/assets/utaka-logo.png.asset.json";
+
 
 const links = [
   { to: "/", label: "Home" },
@@ -18,14 +20,27 @@ export function Navbar() {
     <header className="sticky top-0 z-40 border-b border-border/70 bg-background/85 backdrop-blur">
       <div className="mx-auto grid max-w-6xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-4 py-3 md:flex md:justify-between">
         <Link to="/" className="flex min-w-0 items-center gap-2.5" onClick={() => setOpen(false)}>
-          <span className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-primary text-lg text-primary-foreground shadow-soft">
-            🎲
-          </span>
+          <img
+            src={logo.url}
+            alt="Logo UTAKA"
+            width={40}
+            height={40}
+            className="h-12 w-12 shrink-0 object-contain"
+          />
           <span className="min-w-0">
-            <span className="block truncate font-display text-lg font-bold leading-none">UTAKA</span>
-            <span className="block truncate text-xs text-muted-foreground">Ular Tangga Kartu</span>
+            <span className="utaka-word block truncate font-display text-xl font-extrabold leading-none tracking-tight">
+              <span>U</span>
+              <span>T</span>
+              <span>A</span>
+              <span>K</span>
+              <span>A</span>
+            </span>
+            <span className="block truncate text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
+              Ular Tangga Kartu
+            </span>
           </span>
         </Link>
+
 
         <nav className="hidden items-center gap-1 md:flex">
           {links.map((l) => (

@@ -126,18 +126,19 @@ export function GameBoard({
                 )}
 
                 {here.length > 0 && (
-                  <span className="absolute inset-x-0 bottom-[1px] flex flex-wrap items-end justify-center gap-[1px]">
+                  <span className="absolute inset-x-0 bottom-0 z-10 flex flex-wrap items-end justify-center gap-[1px]">
                     {here.map((p) => (
                       <Pion
                         key={p.id}
                         title={p.name}
                         color={playerColors[p.id]!}
-                        size={9}
+                        size={here.length > 2 ? 14 : 22}
                         active={activeSquare === n}
                       />
                     ))}
                   </span>
                 )}
+
               </div>
             );
           })}
