@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Copy, Loader2, LogIn, Send, Wifi, WifiOff } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
 import { GameBoard, type Player } from "@/components/GameBoard";
 import { Dice, Pion } from "@/components/Dice";
 import { CardPopup } from "@/components/CardPopup";
