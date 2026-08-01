@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import logo from "@/assets/utaka-logo.png.asset.json";
 
 export function Footer() {
   return (
@@ -6,11 +7,23 @@ export function Footer() {
       <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 md:grid-cols-3">
         <div>
           <div className="flex items-center gap-2.5">
-            <span className="grid h-10 w-10 place-items-center rounded-2xl bg-primary text-lg text-primary-foreground">
-              🎲
+            <img
+              src={logo.url}
+              alt="Logo UTAKA"
+              width={44}
+              height={44}
+              loading="lazy"
+              className="h-11 w-11 rounded-full bg-secondary object-contain p-0.5"
+            />
+            <span className="utaka-word font-display text-xl font-extrabold tracking-tight">
+              <span>U</span>
+              <span>T</span>
+              <span>A</span>
+              <span>K</span>
+              <span>A</span>
             </span>
-            <span className="font-display text-lg font-bold">UTAKA</span>
           </div>
+
           <p className="mt-3 max-w-xs text-sm text-muted-foreground">
             Media psikoedukasi berbasis permainan untuk melatih regulasi emosi remaja saat
             menghadapi cinta tak berbalas.

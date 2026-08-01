@@ -1,6 +1,8 @@
 import { Link } from "@tanstack/react-router";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
+import logo from "@/assets/utaka-logo.png.asset.json";
+
 
 const links = [
   { to: "/", label: "Home" },
