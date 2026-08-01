@@ -25,7 +25,7 @@ export function Navbar() {
             alt="Logo UTAKA"
             width={40}
             height={40}
-            className="h-11 w-11 shrink-0 rounded-full bg-secondary object-contain p-0.5"
+            className="h-12 w-12 shrink-0 object-contain"
           />
           <span className="min-w-0">
             <span className="utaka-word block truncate font-display text-xl font-extrabold leading-none tracking-tight">

@@ -13,7 +13,7 @@ export function Footer() {
               width={44}
               height={44}
               loading="lazy"
-              className="h-11 w-11 rounded-full bg-secondary object-contain p-0.5"
+              className="h-12 w-12 object-contain"
             />
             <span className="utaka-word font-display text-xl font-extrabold tracking-tight">
               <span>U</span>
