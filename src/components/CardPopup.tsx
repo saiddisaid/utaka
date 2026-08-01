@@ -194,7 +194,8 @@ export function CardPopup({
               </>
             ) : done ? (
               <>
-                <Volume2 className="h-3.5 w-3.5" /> Dengarkan lagi
+                <Volume2 className="h-3.5 w-3.5" />{" "}
+                {narrateOnOpen ? "Dengarkan lagi" : "Dengarkan kartu"}
               </>
             ) : (
               <>
