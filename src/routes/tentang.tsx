@@ -1,4 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import avatarAlyna from "@/assets/avatar-alyna.png";
+import avatarTsamara from "@/assets/avatar-tsamara.png";
+
 
 export const Route = createFileRoute("/tentang")({
   head: () => ({
@@ -28,11 +31,20 @@ const tujuan = [
 ];
 
 const tim = [
-  { emoji: "🧩", role: "Perancang Permainan", text: "Menyusun konsep, papan, dan aturan UTAKA." },
-  { emoji: "📚", role: "Penyusun Materi", text: "Merumuskan 36 kartu edukasi regulasi emosi." },
-  { emoji: "💻", role: "Pengembang Web", text: "Membangun versi digital yang interaktif." },
-  { emoji: "🧑‍🏫", role: "Pendamping BK", text: "Memastikan materi aman dan sesuai remaja." },
+  {
+    avatar: avatarAlyna,
+    name: "Alyna Yukha Rizqananda",
+    role: "Ketua Peneliti",
+    text: "Merancang konsep permainan UTAKA dan menyusun materi regulasi emosi.",
+  },
+  {
+    avatar: avatarTsamara,
+    name: "Tsamara Khairanna Mufida",
+    role: "Anggota Peneliti",
+    text: "Menyusun kartu edukasi dan mendampingi uji coba permainan bersama remaja.",
+  },
 ];
+
 
 function Tentang() {
   return (
