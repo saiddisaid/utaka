@@ -9,6 +9,7 @@ const links = [
   { to: "/belajar", label: "Belajar" },
   { to: "/cara-bermain", label: "Cara Bermain" },
   { to: "/bermain", label: "Bermain" },
+  { to: "/online", label: "Main Online" },
   { to: "/kartu", label: "Kartu Edukasi" },
   { to: "/tentang", label: "Tentang" },
 ] as const;
