@@ -22,14 +22,17 @@ export function stopNarration() {
   activeSources = [];
 }
 
+export type NarratorVoice = "hangat" | "ceria" | "tenang";
+
 /**
  * Membacakan teks dan resolve setelah pembacaan selesai.
  * Melempar error bila narasi gagal, agar pemanggil bisa lanjut tanpa suara.
  */
-export async function narrate(text: string): Promise<void> {
+export async function narrate(text: string, voice: NarratorVoice = "hangat"): Promise<void> {
   stopNarration();
   const ctrl = new AbortController();
   controller = ctrl;
+
 
   const c = getCtx();
   if (c.state === "suspended") await c.resume().catch(() => {});
