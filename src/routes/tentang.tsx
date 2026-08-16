@@ -30,18 +30,18 @@ const tujuan = [
   "Memberikan pengalaman belajar yang menyenangkan melalui permainan.",
 ];
 
+const asalSekolah = "MAN 3 Bantul, Daerah Istimewa Yogyakarta";
+
 const tim = [
   {
     avatar: avatarAlyna,
     name: "Alyna Yukha Rizqananda",
     role: "Ketua Peneliti",
-    text: "MAN 3 Bantul, Daerah Istimewa Yogyakarta",
   },
   {
     avatar: avatarTsamara,
     name: "Tsamara Khairanna Mufida",
     role: "Anggota Peneliti",
-    text: "MAN 3 Bantul, Daerah Istimewa Yogyakarta",
   },
 ];
 
