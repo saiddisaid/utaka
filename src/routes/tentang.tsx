@@ -101,6 +101,7 @@ function Tentang() {
 
       <section className="mt-10">
         <h2 className="text-2xl font-extrabold">Tim Peneliti</h2>
+        <p className="mt-2 text-sm text-muted-foreground">{asalSekolah}</p>
         <div className="mt-5 grid gap-4 sm:grid-cols-2">
           {tim.map((t) => (
             <div key={t.name} className="card-soft hover-lift flex items-center gap-4 p-6">
