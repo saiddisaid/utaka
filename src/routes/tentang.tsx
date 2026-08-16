@@ -30,18 +30,18 @@ const tujuan = [
   "Memberikan pengalaman belajar yang menyenangkan melalui permainan.",
 ];
 
+const asalSekolah = "MAN 3 Bantul, Daerah Istimewa Yogyakarta";
+
 const tim = [
   {
     avatar: avatarAlyna,
     name: "Alyna Yukha Rizqananda",
     role: "Ketua Peneliti",
-    text: "MAN 3 Bantul, Daerah Istimewa Yogyakarta",
   },
   {
     avatar: avatarTsamara,
     name: "Tsamara Khairanna Mufida",
     role: "Anggota Peneliti",
-    text: "MAN 3 Bantul, Daerah Istimewa Yogyakarta",
   },
 ];
 
@@ -101,6 +101,7 @@ function Tentang() {
 
       <section className="mt-10">
         <h2 className="text-2xl font-extrabold">Tim Peneliti</h2>
+        <p className="mt-2 text-sm text-muted-foreground">{asalSekolah}</p>
         <div className="mt-5 grid gap-4 sm:grid-cols-2">
           {tim.map((t) => (
             <div key={t.name} className="card-soft hover-lift flex items-center gap-4 p-6">
@@ -115,7 +116,7 @@ function Tentang() {
               <div className="min-w-0">
                 <h3 className="font-display text-base font-bold">{t.name}</h3>
                 <p className="text-xs font-bold uppercase tracking-wide text-primary">{t.role}</p>
-                <p className="mt-1 text-sm text-muted-foreground">{t.text}</p>
+                
               </div>
             </div>
           ))}
