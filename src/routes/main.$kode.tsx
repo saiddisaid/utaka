@@ -299,7 +299,7 @@ function RoomPage() {
       <main className="mx-auto max-w-xl px-4 py-16 text-center">
         <h1 className="text-3xl font-extrabold">Room {code} tidak ditemukan</h1>
         <p className="mt-3 opacity-80">Mungkin kodenya salah atau room sudah dihapus.</p>
-        <Link to="/online" search={{}} className="btn-primary mt-6 inline-block">
+        <Link to="/online" search={{ kode: undefined }} className="btn-primary mt-6 inline-block">
           Kembali ke Mode Online
         </Link>
       </main>
