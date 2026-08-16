@@ -317,7 +317,7 @@ function BermainPage() {
               Buat room online dan undang temanmu — papan, dadu, dan kartu tersinkron real-time.
             </p>
           </div>
-          <Link to="/online" search={{}} className="btn-primary">
+          <Link to="/online" search={{ kode: undefined }} className="btn-primary">
             Main Online
           </Link>
         </div>

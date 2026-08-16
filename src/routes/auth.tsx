@@ -61,7 +61,7 @@ function AuthPage() {
       } else {
         const { error: err } = await supabase.auth.signInWithPassword({ email, password });
         if (err) throw err;
-        navigate({ to: "/online", search: {} });
+        navigate({ to: "/online", search: { kode: undefined } });
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Gagal memproses.");
@@ -80,7 +80,7 @@ function AuthPage() {
       return;
     }
     if (result.redirected) return;
-    navigate({ to: "/online", search: {} });
+    navigate({ to: "/online", search: { kode: undefined } });
   }
 
   return (
@@ -90,7 +90,7 @@ function AuthPage() {
       </h1>
       <p className="mt-2 opacity-80">
         Login bersifat opsional. Kamu tetap bisa{" "}
-        <Link to="/online" search={{}} className="underline">
+        <Link to="/online" search={{ kode: undefined }} className="underline">
           bermain sebagai tamu
         </Link>
         .
@@ -100,7 +100,7 @@ function AuthPage() {
         <div className="mt-6 rounded-2xl border border-white/15 bg-white/5 p-5">
           <p className="font-bold">Kamu sudah masuk sebagai {userEmail}.</p>
           <div className="mt-4 flex gap-2">
-            <Link to="/online" search={{}} className="btn-primary">
+            <Link to="/online" search={{ kode: undefined }} className="btn-primary">
               Main Online
             </Link>
             <button
