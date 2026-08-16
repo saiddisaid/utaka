@@ -116,7 +116,7 @@ function Tentang() {
               <div className="min-w-0">
                 <h3 className="font-display text-base font-bold">{t.name}</h3>
                 <p className="text-xs font-bold uppercase tracking-wide text-primary">{t.role}</p>
-                <p className="mt-1 text-sm text-muted-foreground">{t.text}</p>
+                
               </div>
             </div>
           ))}
