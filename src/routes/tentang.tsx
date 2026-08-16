@@ -35,13 +35,13 @@ const tim = [
     avatar: avatarAlyna,
     name: "Alyna Yukha Rizqananda",
     role: "Ketua Peneliti",
-    text: "Merancang konsep permainan UTAKA dan menyusun materi regulasi emosi.",
+    text: "MAN 3 Bantul, Daerah Istimewa Yogyakarta",
   },
   {
     avatar: avatarTsamara,
     name: "Tsamara Khairanna Mufida",
     role: "Anggota Peneliti",
-    text: "Menyusun kartu edukasi dan mendampingi uji coba permainan bersama remaja.",
+    text: "MAN 3 Bantul, Daerah Istimewa Yogyakarta",
   },
 ];
 
@@ -73,10 +73,10 @@ function Tentang() {
       <section className="mt-10 rounded-3xl surface-cream p-8">
         <h2 className="text-2xl font-extrabold">Tentang Penelitian</h2>
         <p className="mt-4 text-sm text-muted-foreground">
-          UTAKA dikembangkan sebagai media bimbingan kelompok untuk remaja usia 15–19 tahun yang
-          pernah mengalami cinta tak berbalas, penolakan, atau kegagalan dalam mendekati seseorang.
-          Materinya berpijak pada enam strategi regulasi emosi yang dijadikan dasar
-          seluruh kartu permainan.
+          UTAKA dikembangkan sebagai media bimbingan kelompok yang dapat digunakan oleh siapa pun
+          yang pernah mengalami cinta tak berbalas, penolakan, atau kegagalan dalam mendekati
+          seseorang — dengan remaja sebagai target utamanya. Materinya berpijak pada enam strategi
+          regulasi emosi yang dijadikan dasar seluruh kartu permainan.
         </p>
         <p className="mt-3 text-sm text-muted-foreground">
           Pendekatan yang digunakan adalah experiential learning: pemain belajar dari pengalaman
@@ -84,10 +84,9 @@ function Tentang() {
           maupun diagnosis; hasil refleksi sepenuhnya milik pengguna dan disimpan di perangkatnya
           sendiri.
         </p>
-        <div className="mt-6 grid gap-4 sm:grid-cols-3">
+        <div className="mt-6 grid gap-4 sm:grid-cols-2">
           {[
-            { k: "Pengguna utama", v: "Remaja 15–19 tahun" },
-            { k: "Pengguna sekunder", v: "Guru BK, konselor, peneliti" },
+            { k: "Target utama", v: "Remaja" },
             { k: "Durasi permainan", v: "± 30 menit" },
           ].map((i) => (
             <div key={i.k} className="rounded-2xl bg-card p-5 shadow-soft">
